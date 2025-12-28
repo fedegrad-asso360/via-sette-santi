@@ -30,7 +30,9 @@ const trails = allTrails
     {trails.map((trail) => {
       const slug = trail.id.split("/").slice(1).join("/");
       const formattedDate = trail.data.date.toLocaleString(lang);
-      const trailUrl = `${base}/${lang}/trails/${slug}`.replace(/\/+/g, '/');
+      // Construct URL with base path
+      const basePath = base === '/' ? '' : base;
+      const trailUrl = `${basePath}/${lang}/trails/${slug}`;
       
       return (
         <li>

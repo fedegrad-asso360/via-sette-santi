@@ -18,10 +18,11 @@ const pathFor = (targetLang: string) => {
     const rest = segments.slice(1);
     
     // Reconstruct path: base + targetLang + rest
-    const newPath = [base, targetLang, ...rest].join('/').replace(/\/+/g, '/');
+    // Ensure base ends without slash, then add components
+    const basePath = base === '/' ? '' : base;
+    const restPath = rest.length > 0 ? '/' + rest.join('/') : '';
     
-    // Ensure it starts with / and ends with / for consistency
-    return newPath.startsWith('/') ? newPath : '/' + newPath;
+    return `${basePath}/${targetLang}${restPath}`;
 };
 ---
 <ul>
