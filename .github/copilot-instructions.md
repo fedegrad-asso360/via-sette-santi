@@ -26,7 +26,8 @@ This is a website for "la Via dei Sette Santi" (Path of the Seven Saints), a spi
 - TypeScript/Data files: camelCase for exports, kebab-case for filenames
 
 ### Astro Architecture
-- Project infrastructure reflects Astro best practices and documentation (https://docs.astro.build/) 
+- Project infrastructure reflects standard Astro best practices and documentation
+- The helper `getResourceRoute` in `src/utils/path.ts` are used to split the current URL and getting the specific resource pathname without base URL and language codes
 
 #### Internationalization (i18n)
 - Multi-language support is implemented with standard Astro support

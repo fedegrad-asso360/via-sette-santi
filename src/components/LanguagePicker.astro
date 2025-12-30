@@ -1,7 +1,7 @@
 ---
 import { languages } from "../i18n/languages";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getResourceRoute } from "../i18n/utils";
+import { getResourceRoute } from "../utils/path";
 
 const { lang: currentLang } = Astro.params; // current selected language in the URL
 const baseUrl = import.meta.env.BASE_URL; // base path of the site
