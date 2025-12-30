@@ -8,7 +8,7 @@ import "../../styles/global.css";
 export function getStaticPaths() {
 	// converts languages object keys into an array of lang params
 	return Object.keys(languages).map((lang) => ({
-		params: { lang }
+		params: { lang },
 	}));
 }
 
@@ -17,9 +17,4 @@ const { lang } = Astro.params;
 
 <BaseLayout>
 	<h1>Sette Santi ( {lang} )</h1>
-	TODO imminenti:
-	<ul>
-		<li>crea la sitemap.xml per SEO multi-lingua</li>
-		<li>Riallinea il copilot instruction dopo le modifiche</li>
-	</ul>
 </BaseLayout>
