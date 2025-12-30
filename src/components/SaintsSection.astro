@@ -1,0 +1,55 @@
+---
+/**
+ * Saints Section Component
+ * 
+ * Displays a grid of saint cards with information about the seven saints
+ * and their associated churches along the pilgrimage route.
+ * 
+ * Props:
+ * @param {string} title - Section title
+ * @param {string} subtitle - Section subtitle
+ * @param {Array} saints - Array of saint collection entries
+ * @param {string} lang - Current language code
+ * @param {object} translations - Translation strings for SaintCard component
+ */
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+import SaintCard from "./SaintCard.astro";
+
+export interface Props {
+	title: string;
+	subtitle: string;
+	saints: any[]; // Collection entries
+	lang: string;
+	translations: {
+		learnMore: string;
+	};
+}
+
+const { title, subtitle, saints, lang, translations } = Astro.props;
+---
+
+<section id="saints" class="section">
+	<div class="container-custom">
+		<div class="section-header">
+			<h2 class="section-title">{title}</h2>
+			<p class="section-subtitle">{subtitle}</p>
+		</div>
+
+		<div class="grid-auto-fill" style="--grid-min-width: 300px;">
+			{saints.map((saint) => (
+				<SaintCard
+					name={saint.data.name}
+					church={saint.data.church}
+					location={saint.data.location}
+					description={saint.data.description}
+					image={saint.data.image}
+					link={getRelativeLocaleUrl(lang, `/saints/${saint.id.split('/').slice(1).join('/')}`)}
+					translations={{
+						learnMore: translations.learnMore
+					}}
+				/>
+			))}
+		</div>
+	</div>
+</section>

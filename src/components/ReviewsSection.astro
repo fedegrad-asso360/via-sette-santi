@@ -1,0 +1,54 @@
+---
+/**
+ * Reviews Section Component
+ * 
+ * Displays user reviews and testimonials in a responsive grid layout.
+ * Reviews are rendered using the ReviewCard component.
+ * 
+ * Props:
+ * @param {string} title - Section title
+ * @param {string} subtitle - Section subtitle
+ * @param {Array} reviews - Array of review objects with name, location, rating, date, and text
+ */
+
+import ReviewCard from "./ReviewCard.astro";
+
+export interface Review {
+	name: string;
+	location: string;
+	rating: number;
+	date: string;
+	text: string;
+}
+
+export interface Props {
+	title: string;
+	subtitle: string;
+	reviews: Review[];
+}
+
+const { title, subtitle, reviews } = Astro.props;
+---
+
+<section id="reviews" class="section section-alt">
+	<div class="container-custom">
+		<div class="section-header">
+			<h2 class="section-title">{title}</h2>
+			<p class="section-subtitle">{subtitle}</p>
+		</div>
+
+		<div class="content-wrapper-lg">
+			<div class="grid-auto-fit" style="--grid-min-width: 300px;">
+				{reviews.map((review) => (
+					<ReviewCard
+						name={review.name}
+						location={review.location}
+						rating={review.rating}
+						date={review.date}
+						text={review.text}
+					/>
+				))}
+			</div>
+		</div>
+	</div>
+</section>

@@ -2,14 +2,14 @@
 // Main index homepage (language-specific)
 
 import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { languages } from "../../i18n/languages";
 import { useTranslations } from "../../i18n/utils";
 import BaseLayout from "../../layouts/Base.astro";
 import HeroCarousel from "../../components/HeroCarousel.astro";
-import TrailCard from "../../components/TrailCard.astro";
-import SaintCard from "../../components/SaintCard.astro";
-import ReviewCard from "../../components/ReviewCard.astro";
+import OverviewSection from "../../components/OverviewSection.astro";
+import TrailsSection from "../../components/TrailsSection.astro";
+import SaintsSection from "../../components/SaintsSection.astro";
+import ReviewsSection from "../../components/ReviewsSection.astro";
 import BookingSection from "../../components/BookingSection.astro";
 import "../../styles/global.css";
 
@@ -27,7 +27,6 @@ const t = useTranslations(lang as keyof typeof languages);
 const allTrails = await getCollection("trails", ({ id }) => {
 	return id.startsWith(`${lang}/`);
 });
-const sortedTrails = allTrails.sort((a, b) => a.data.number - b.data.number);
 
 // Get all saints for this language
 const allSaints = await getCollection("saints", ({ id }) => {
@@ -108,109 +107,48 @@ const bookingOptions = [
 	/>
 
 	<!-- Overview Section -->
-	<section id="overview" class="section">
-		<div class="container-custom">
-			<div class="section-header">
-				<h2 class="section-title">{t('overview.title')}</h2>
-				<p class="section-subtitle">{t('overview.subtitle')}</p>
-			</div>
-
-			<div class="content-wrapper">
-				<div class="overview-text">
-					<p class="overview-description">{t('overview.description')}</p>
-					
-					<div class="info-box">
-						<div class="info-item" style="text-align: center;">
-							<strong class="info-item-label">{t('overview.location')}:</strong>
-							<span class="info-item-value">{t('overview.locationText')}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+	<OverviewSection
+		title={t('overview.title')}
+		subtitle={t('overview.subtitle')}
+		description={t('overview.description')}
+		locationLabel={t('overview.location')}
+		locationText={t('overview.locationText')}
+	/>
 
 	<!-- Trails Section -->
-	<section id="trails" class="section section-alt">
-		<div class="container-custom">
-			<div class="section-header">
-				<h2 class="section-title">{t('trails.title')}</h2>
-				<p class="section-subtitle">{t('trails.subtitle')}</p>
-			</div>
-
-			<div class="grid-auto-fill" style="--grid-min-width: 350px;">
-				{sortedTrails.map((trail) => (
-					<TrailCard
-						number={trail.data.number}
-						title={trail.data.title}
-						description={trail.data.description}
-						distance={trail.data.distance}
-						duration={trail.data.duration}
-						difficulty={trail.data.difficulty}
-						image={trail.data.image}
-						link={getRelativeLocaleUrl(lang, `/trails/${trail.id.split('/').slice(1).join('/')}`)}
-						translations={{
-							distance: t('trails.distance'),
-							duration: t('trails.duration'),
-							difficulty: t('trails.difficulty'),
-							viewDetails: t('trails.viewDetails'),
-							difficultyLabel: t(`trails.difficulty.${trail.data.difficulty}`)
-						}}
-					/>
-				))}
-			</div>
-		</div>
-	</section>
+	<TrailsSection
+		title={t('trails.title')}
+		subtitle={t('trails.subtitle')}
+		trails={allTrails}
+		lang={lang}
+		translations={{
+			distance: t('trails.distance'),
+			duration: t('trails.duration'),
+			difficulty: t('trails.difficulty'),
+			viewDetails: t('trails.viewDetails'),
+			easy: t('trails.difficulty.easy'),
+			moderate: t('trails.difficulty.moderate'),
+			hard: t('trails.difficulty.hard')
+		}}
+	/>
 
 	<!-- Saints Section -->
-	<section id="saints" class="section">
-		<div class="container-custom">
-			<div class="section-header">
-				<h2 class="section-title">{t('saints.title')}</h2>
-				<p class="section-subtitle">{t('saints.subtitle')}</p>
-			</div>
-
-			<div class="grid-auto-fill" style="--grid-min-width: 300px;">
-				{allSaints.map((saint) => (
-					<SaintCard
-						name={saint.data.name}
-						church={saint.data.church}
-						location={saint.data.location}
-						description={saint.data.description}
-						image={saint.data.image}
-						link={getRelativeLocaleUrl(lang, `/saints/${saint.id.split('/').slice(1).join('/')}`)}
-						translations={{
-							learnMore: t('saints.learnMore')
-						}}
-					/>
-				))}
-			</div>
-		</div>
-	</section>
+	<SaintsSection
+		title={t('saints.title')}
+		subtitle={t('saints.subtitle')}
+		saints={allSaints}
+		lang={lang}
+		translations={{
+			learnMore: t('saints.learnMore')
+		}}
+	/>
 
 	<!-- Reviews Section -->
-	<section id="reviews" class="section section-alt">
-		<div class="container-custom">
-			<div class="section-header">
-				<h2 class="section-title">{t('reviews.title')}</h2>
-				<p class="section-subtitle">{t('reviews.subtitle')}</p>
-			</div>
-
-			<div class="content-wrapper-lg">
-				<div class="grid-auto-fit" style="--grid-min-width: 300px;">
-					{sampleReviews.map((review) => (
-					<ReviewCard
-						name={review.name}
-						location={review.location}
-						rating={review.rating}
-						date={review.date}
-						text={review.text}
-					/>
-				))}
-				</div>
-			</div>
-		</div>
-	</section>
+	<ReviewsSection
+		title={t('reviews.title')}
+		subtitle={t('reviews.subtitle')}
+		reviews={sampleReviews}
+	/>
 
 	<!-- Booking Section -->
 	<section id="booking" class="section">
@@ -225,16 +163,3 @@ const bookingOptions = [
 		</div>
 	</section>
 </BaseLayout>
-
-<style>
-	.overview-text {
-		text-align: center;
-	}
-
-	.overview-description {
-		font-size: 1.125rem;
-		line-height: 1.8;
-		color: var(--color-text);
-		margin-bottom: 2rem;
-	}
-</style>
