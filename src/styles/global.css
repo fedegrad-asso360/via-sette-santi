@@ -114,6 +114,8 @@
 html {
   color-scheme: light dark;
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -122,6 +124,9 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   transition: background-color var(--transition-base), color var(--transition-base);
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* ============================================
@@ -133,20 +138,214 @@ body {
     text-wrap: balance;
   }
 
+  /* Container Utilities */
   .container-custom {
     width: 100%;
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--spacing-4);
-    padding-right: var(--spacing-4);
+    padding-left: max(var(--spacing-4), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-4), env(safe-area-inset-right));
   }
 
   @media (min-width: 768px) {
     .container-custom {
-      padding-left: var(--spacing-6);
-      padding-right: var(--spacing-6);
+      padding-left: max(var(--spacing-6), env(safe-area-inset-left));
+      padding-right: max(var(--spacing-6), env(safe-area-inset-right));
     }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: var(--spacing-8);
+      padding-right: var(--spacing-8);
+    }
+  }
+
+  /* Section Utilities */
+  .section {
+    width: 100%;
+    padding: 5rem 0;
+  }
+
+  @media (max-width: 1024px) {
+    .section {
+      padding: 4rem 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section {
+      padding: 3rem 0;
+    }
+  }
+
+  .section-alt {
+    background-color: var(--color-surface);
+  }
+
+  /* Section Header Utilities */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  /* Typography Utilities */
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 2rem;
+    }
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  /* Grid Utilities */
+  .grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width, 300px)), 1fr));
+    gap: var(--grid-gap, 2rem);
+  }
+
+  .grid-auto-fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--grid-min-width, 300px)), 1fr));
+    gap: var(--grid-gap, 2rem);
+  }
+
+  @media (max-width: 640px) {
+    .grid-auto-fit,
+    .grid-auto-fill {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Content Wrapper Utilities */
+  .content-wrapper {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-wrapper-lg {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Info Box Utility */
+  .info-box {
+    padding: 2rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 768px) {
+    .info-box {
+      padding: 1.5rem;
+    }
+  }
+
+  /* Stat/Info Item Utility */
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .info-item-label {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .info-item-value {
+    color: var(--color-text-muted);
+  }
+
+  /* List Utilities */
+  .list-reset {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Feature List Utility */
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--color-text);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .feature-item:last-child {
+    border-bottom: none;
+  }
+
+  .feature-item-icon {
+    color: var(--color-accent-600);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
   }
 }
 

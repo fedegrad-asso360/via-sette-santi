@@ -108,21 +108,21 @@ const bookingOptions = [
 	/>
 
 	<!-- Overview Section -->
-	<section id="overview" class="section-padding">
+	<section id="overview" class="section">
 		<div class="container-custom">
 			<div class="section-header">
 				<h2 class="section-title">{t('overview.title')}</h2>
 				<p class="section-subtitle">{t('overview.subtitle')}</p>
 			</div>
 
-			<div class="overview-content">
+			<div class="content-wrapper">
 				<div class="overview-text">
 					<p class="overview-description">{t('overview.description')}</p>
 					
-					<div class="overview-info">
-						<div class="info-item">
-							<strong>{t('overview.location')}:</strong>
-							<span>{t('overview.locationText')}</span>
+					<div class="info-box">
+						<div class="info-item" style="text-align: center;">
+							<strong class="info-item-label">{t('overview.location')}:</strong>
+							<span class="info-item-value">{t('overview.locationText')}</span>
 						</div>
 					</div>
 				</div>
@@ -131,14 +131,14 @@ const bookingOptions = [
 	</section>
 
 	<!-- Trails Section -->
-	<section id="trails" class="section-padding section-alt">
+	<section id="trails" class="section section-alt">
 		<div class="container-custom">
 			<div class="section-header">
 				<h2 class="section-title">{t('trails.title')}</h2>
 				<p class="section-subtitle">{t('trails.subtitle')}</p>
 			</div>
 
-			<div class="trails-grid">
+			<div class="grid-auto-fill" style="--grid-min-width: 350px;">
 				{sortedTrails.map((trail) => (
 					<TrailCard
 						number={trail.data.number}
@@ -163,14 +163,14 @@ const bookingOptions = [
 	</section>
 
 	<!-- Saints Section -->
-	<section id="saints" class="section-padding">
+	<section id="saints" class="section">
 		<div class="container-custom">
 			<div class="section-header">
 				<h2 class="section-title">{t('saints.title')}</h2>
 				<p class="section-subtitle">{t('saints.subtitle')}</p>
 			</div>
 
-			<div class="saints-grid">
+			<div class="grid-auto-fill" style="--grid-min-width: 300px;">
 				{allSaints.map((saint) => (
 					<SaintCard
 						name={saint.data.name}
@@ -189,15 +189,16 @@ const bookingOptions = [
 	</section>
 
 	<!-- Reviews Section -->
-	<section id="reviews" class="section-padding section-alt">
+	<section id="reviews" class="section section-alt">
 		<div class="container-custom">
 			<div class="section-header">
 				<h2 class="section-title">{t('reviews.title')}</h2>
 				<p class="section-subtitle">{t('reviews.subtitle')}</p>
 			</div>
 
-			<div class="reviews-grid">
-				{sampleReviews.map((review) => (
+			<div class="content-wrapper-lg">
+				<div class="grid-auto-fit" style="--grid-min-width: 300px;">
+					{sampleReviews.map((review) => (
 					<ReviewCard
 						name={review.name}
 						location={review.location}
@@ -206,12 +207,13 @@ const bookingOptions = [
 						text={review.text}
 					/>
 				))}
+				</div>
 			</div>
 		</div>
 	</section>
 
 	<!-- Booking Section -->
-	<section id="booking" class="section-padding">
+	<section id="booking" class="section">
 		<div class="container-custom">
 			<BookingSection
 				title={t('booking.title')}
@@ -225,51 +227,6 @@ const bookingOptions = [
 </BaseLayout>
 
 <style>
-	.section-padding {
-		padding: 4rem 0;
-	}
-
-	@media (max-width: 768px) {
-		.section-padding {
-			padding: 3rem 0;
-		}
-	}
-
-	.section-alt {
-		background-color: var(--color-surface);
-	}
-
-	.section-header {
-		text-align: center;
-		margin-bottom: 3rem;
-		max-width: 800px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.section-title {
-		font-size: 2.5rem;
-		font-weight: 700;
-		color: var(--color-text);
-		margin-bottom: 0.75rem;
-	}
-
-	@media (max-width: 768px) {
-		.section-title {
-			font-size: 2rem;
-		}
-	}
-
-	.section-subtitle {
-		font-size: 1.125rem;
-		color: var(--color-text-muted);
-	}
-
-	.overview-content {
-		max-width: 800px;
-		margin: 0 auto;
-	}
-
 	.overview-text {
 		text-align: center;
 	}
@@ -279,69 +236,5 @@ const bookingOptions = [
 		line-height: 1.8;
 		color: var(--color-text);
 		margin-bottom: 2rem;
-	}
-
-	.overview-info {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		padding: 1.5rem;
-		background-color: var(--color-surface);
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--color-border);
-	}
-
-	.info-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		text-align: center;
-	}
-
-	.info-item strong {
-		color: var(--color-text);
-		font-weight: 600;
-	}
-
-	.info-item span {
-		color: var(--color-text-muted);
-	}
-
-	.trails-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-		gap: 2rem;
-	}
-
-	@media (max-width: 768px) {
-		.trails-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	.saints-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 2rem;
-	}
-
-	@media (max-width: 768px) {
-		.saints-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	.reviews-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 2rem;
-		max-width: 1200px;
-		margin: 0 auto;
-	}
-
-	@media (max-width: 768px) {
-		.reviews-grid {
-			grid-template-columns: 1fr;
-		}
 	}
 </style>

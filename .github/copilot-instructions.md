@@ -92,15 +92,107 @@ src/
 - Alternate "hreflang" and Canonical tags to optimize SEO for multi-language setup are generated in the common layout `src/layouts/Base.astro`
 - Site Map for SEO dynamically generated from ``astro.config.mjs`` with i18n support (https://docs.astro.build/en/guides/integrations-guide/sitemap/)
 
-## UI and Graphic Design
-- Use Tailwind following best practices for Astro
+## Design System & Styling
+
+### Core Principles
+- **Reusability First**: Always use utility classes from `src/styles/global.css` before creating custom CSS
+- **Consistency**: Maintain uniform spacing, colors, typography across the entire site
+- **Scalability**: Design system supports easy addition of new pages and features
+- **DRY**: Avoid duplicating styles; centralize in global utilities
+- **Performance**: Smaller CSS bundle through shared classes
+
+### Styling Architecture
 - `global.css` is imported in the main index `src/pages/index.astro`
+- All CSS variables defined in `@theme` block in `global.css`
+- Utility classes defined in `@layer utilities` in `global.css`
+- Component-specific styles only for truly unique styling needs
 - Use themes to customize look and feel and provide dark mode support
-- Make it simple to change palettes, colors, fonts, and style from a single source of truth (Tailwind config)
-- Segregate CSS from Components
-- Consistent spacing, colors, and typography according to design system
 - Accessible design: follow WCAG guidelines
 - Responsive design: mobile-first approach
+
+### Global Utility Classes
+**ALWAYS use these classes instead of creating custom CSS:**
+
+#### Layout & Container
+- `.container-custom` - Main site container (max-width: 1280px, responsive padding)
+- `.content-wrapper` - Text content wrapper (max-width: 800px)
+- `.content-wrapper-lg` - Larger content wrapper (max-width: 1200px)
+
+#### Sections
+- `.section` - Standard section with responsive padding (5rem → 4rem → 3rem)
+- `.section-alt` - Section with alternate background (`--color-surface`)
+- `.section-header` - Centered section header container
+
+#### Typography
+- `.section-title` - Main section title (2.5rem → 2rem on mobile)
+- `.section-subtitle` - Section subtitle (1.125rem, muted color)
+- `.page-title` - Page main title (3rem → 2.25rem on mobile)
+- `.card-title` - Card component title (1.5rem)
+- `.text-muted` - Muted text color
+
+#### Responsive Grids
+- `.grid-auto-fit` - Responsive grid with auto-fit (columns expand)
+- `.grid-auto-fill` - Responsive grid with auto-fill (creates all possible columns)
+- Customize with CSS variables: `--grid-min-width` (default: 300px), `--grid-gap` (default: 2rem)
+- Automatically becomes single-column on mobile (≤640px)
+
+#### Components
+- `.info-box` - Information box with border and shadow
+- `.info-item`, `.info-item-label`, `.info-item-value` - Info item elements
+- `.feature-list`, `.feature-item`, `.feature-item-icon` - Feature list elements
+- `.list-reset` - Reset list styling (no bullets, no padding)
+
+### Standard Page Pattern
+```astro
+<BaseLayout>
+  <section class="section">
+    <div class="container-custom">
+      <div class="section-header">
+        <h1 class="page-title">Page Title</h1>
+        <p class="section-subtitle">Page description</p>
+      </div>
+      
+      <div class="content-wrapper">
+        <!-- Main content -->
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+```
+
+### Grid Layout Pattern
+```astro
+<section class="section section-alt">
+  <div class="container-custom">
+    <div class="section-header">
+      <h2 class="section-title">Section Title</h2>
+      <p class="section-subtitle">Section description</p>
+    </div>
+    
+    <div class="grid-auto-fill" style="--grid-min-width: 350px;">
+      {items.map(item => <Card {...item} />)}
+    </div>
+  </div>
+</section>
+```
+
+### CSS Variables Usage
+All design tokens are CSS variables in `global.css`:
+- **Colors**: `--color-primary-600`, `--color-text`, `--color-surface`, etc.
+- **Spacing**: `--spacing-4` (1rem), `--spacing-8` (2rem), etc.
+- **Radius**: `--radius-md`, `--radius-lg`, `--radius-xl`
+- **Shadows**: `--shadow-sm`, `--shadow-md`, `--shadow-lg`
+- **Transitions**: `--transition-fast`, `--transition-base`
+
+### When to Create Custom CSS
+Only create component-specific CSS for:
+1. Truly unique styling not covered by utilities
+2. Complex component-specific interactions
+3. Specific visual effects not generalizable
+
+Always ask: "Can I use an existing utility class for this?"
+
+For complete documentation, see `DESIGN_SYSTEM.md` in project root.
 
 
 
@@ -154,16 +246,21 @@ src/
 2. **Is this accessible to users with disabilities?**
 3. **Will this work well on mobile devices?**
 4. **Does this follow the existing code patterns?**
-5. **Is this the minimal change needed to achieve the goal?**
-6. **Have I tested this in both development and production builds?**
-7. **Does this maintain or improve site performance?**
-8. **Is the TypeScript typing complete and accurate?**
+5. **Am I using utility classes from `global.css` instead of creating custom CSS?**
+6. **Is this the minimal change needed to achieve the goal?**
+7. **Have I tested this in both development and production builds?**
+8. **Does this maintain or improve site performance?**
+9. **Is the TypeScript typing complete and accurate?**
+10. **Does this maintain consistency with the design system?**
 
 ## Getting Help
 
 - Check Astro documentation: https://docs.astro.build
 - Review Tailwind CSS docs: https://tailwindcss.com/docs
+- **Check `DESIGN_SYSTEM.md` for utility classes and patterns**
+- Review `src/styles/global.css` for available utilities and CSS variables
 - Refer to existing components and pages in `src/components/` and `src/pages/` for patterns
+- Homepage (`src/pages/[lang]/index.astro`) demonstrates best practices for using utility classes
 
 ---
 

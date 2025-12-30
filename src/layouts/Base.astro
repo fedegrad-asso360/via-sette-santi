@@ -237,6 +237,7 @@ if (resourceRoute === "/")
     position: sticky;
     top: 0;
     z-index: 50;
+    width: 100%;
     background-color: var(--color-background);
     border-bottom: 1px solid var(--color-border);
     backdrop-filter: blur(8px);
@@ -246,8 +247,24 @@ if (resourceRoute === "/")
   .nav-container {
     width: 100%;
     max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .nav-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .nav-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 
   .nav-content {
@@ -400,14 +417,15 @@ if (resourceRoute === "/")
      Main Content
      ============================================ */
   .main-content {
+    width: 100%;
     min-height: calc(100vh - 16rem);
-    padding: 2rem 0;
   }
 
   /* ============================================
      Footer Styles
      ============================================ */
   .footer {
+    width: 100%;
     background-color: var(--color-surface);
     border-top: 1px solid var(--color-border);
     margin-top: 4rem;
@@ -416,8 +434,23 @@ if (resourceRoute === "/")
   .footer-container {
     width: 100%;
     max-width: 1280px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     padding: 3rem 1rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 
   .footer-content {
