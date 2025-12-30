@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy static content to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -41,8 +41,10 @@ jobs:
       - name: Build Astro site
         run: npm run build
         env:
+          # deploy on GitHub page URL
           SITE: "https://${{ github.repository_owner }}.github.io"
-          BASE: "/${{ github.event.repository.name }}"
+          # GitHub Pages uses project name as base path
+          BASE: "/${{ github.event.repository.name }}" 
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
