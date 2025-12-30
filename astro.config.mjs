@@ -8,8 +8,6 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // site: 'https://fedegrad-asso360.github.io',
-  // base: 'via-sette-santi',
   site: process.env.SITE || undefined,
   base: process.env.BASE || undefined,
 
