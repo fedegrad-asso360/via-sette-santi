@@ -7,7 +7,7 @@ import { languages } from './src/i18n/languages';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://fedegrad-asso360.github.io',
-  base: '/via-sette-santi',
+  base: 'via-sette-santi',
   i18n: {
     defaultLocale: 'en',
     locales : Object.keys(languages),
