@@ -29,23 +29,6 @@ This is a website for "la Via dei Sette Santi" (Path of the Seven Saints), a spi
 - Project infrastructure reflects standard Astro best practices and documentation
 - The helper `getResourceRoute` in `src/utils/path.ts` are used to split the current URL and getting the specific resource pathname without base URL and language codes
 
-#### Internationalization (i18n)
-- Multi-language support is implemented with standard Astro support
-- Supported languages are stored in a single source of truth file: `src/i18n/languages.ts`; other occurrences of language codes should be imported and derived from this file
-- UI translations, texts, and labels can be found in `src/i18n/ui.ts`
-- i18n helper methods are in `src/i18n/utils.ts`
-- Use `useTranslations(lang)` helper to get translated strings (https://docs.astro.build/en/recipes/i18n/#translate-ui-strings)
-- Internationalization implementation determines route structure as: /base-url/[lang]/resource-path
-- Default language has its own explicit route (see https://docs.astro.build/en/recipes/i18n/#hide-default-language-in-the-url)
-- The [lang] node of the route is implemented as Astro standard dynamic route parameters (https://docs.astro.build/en/guides/routing/#dynamic-routes), so there is a single common `src/pages/[lang]` populated by the `getStaticPaths()` method in its related `index.astro` file
-- The main `src/pages/index.astro` redirects to the default language index page, trying to determine the user preferred locale (https://docs.astro.build/en/guides/internationalization/#browser-language-detection)
-- URI structure is in English (e.g., `/trails`, `/saints`); there are no language-specific routes for the resource paths (future improvement)
-- `src/components/LanguagePicker.astro` component implements the language switcher, generating correct relative URLs for the current resource in the selected language
-- Relative URLs for i18n are generated with Astro's built-in `getRelativeLocaleUrl(lang, resourcePath)` method (https://docs.astro.build/en/guides/internationalization/#create-links; https://docs.astro.build/en/reference/modules/astro-i18n/#getrelativelocaleurl), so users can change language while staying on the same resource page
-- Alternate "hreflang" and Canonical tags to optimize SEO for multi-language setup are generated in the common layout `src/layouts/Base.astro`
-- Site Map for SEO (ToDo)
-
-
 #### Page Structure
 ```
 src/pages/
@@ -87,6 +70,24 @@ src/
         ├── de/        # Collection for Contents in German language        
         └── .../       # Other languages supported           
 ```
+
+#### Internationalization (i18n)
+- Multi-language support is implemented with standard Astro support
+- Supported languages are stored in a single source of truth file: `src/i18n/languages.ts`; other occurrences of language codes should be imported and derived from this file
+- UI translations, texts, and labels can be found in `src/i18n/ui.ts`
+- i18n helper methods are in `src/i18n/utils.ts`
+- Use `useTranslations(lang)` helper to get translated strings (https://docs.astro.build/en/recipes/i18n/#translate-ui-strings)
+- Internationalization implementation determines route structure as: /base-url/[lang]/resource-path
+- Default language has its own explicit route (see https://docs.astro.build/en/recipes/i18n/#hide-default-language-in-the-url)
+- The [lang] node of the route is implemented as Astro standard dynamic route parameters (https://docs.astro.build/en/guides/routing/#dynamic-routes), so there is a single common `src/pages/[lang]` populated by the `getStaticPaths()` method in its related `index.astro` file
+- The main `src/pages/index.astro` redirects to the default language index page, trying to determine the user preferred locale (https://docs.astro.build/en/guides/internationalization/#browser-language-detection)
+- URI structure is in English (e.g., `/trails`, `/saints`); there are no language-specific routes for the resource paths (future improvement)
+- `src/components/LanguagePicker.astro` component implements the language switcher, generating correct relative URLs for the current resource in the selected language
+- Relative URLs for i18n are generated with Astro's built-in `getRelativeLocaleUrl(lang, resourcePath)` method (https://docs.astro.build/en/guides/internationalization/#create-links; https://docs.astro.build/en/reference/modules/astro-i18n/#getrelativelocaleurl), so users can change language while staying on the same resource page
+
+### SEO
+- Alternate "hreflang" and Canonical tags to optimize SEO for multi-language setup are generated in the common layout `src/layouts/Base.astro`
+- Site Map for SEO dynamically generated from ``astro.config.mjs`` with i18n support (https://docs.astro.build/en/guides/integrations-guide/sitemap/)
 
 ### UI and Graphic Design
 - Use Tailwind following best practices for Astro
