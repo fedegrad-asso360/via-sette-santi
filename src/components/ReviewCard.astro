@@ -15,45 +15,37 @@ interface Props {
 const { name, date, rating, text, location } = Astro.props;
 ---
 
-<article class="review-card">
-  <div class="review-header">
-    <div class="review-avatar">
-      {name.charAt(0).toUpperCase()}
-    </div>
-    <div class="review-meta">
-      <h4 class="review-name">{name}</h4>
-      {location && <p class="review-location">{location}</p>}
-      <div class="review-rating">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <span class={`star ${i < rating ? 'filled' : ''}`}>★</span>
-        ))}
+<article class="card-base review-card">
+  <div class="card-content" style="gap: 1rem;">
+    <div class="review-header">
+      <div class="review-avatar">
+        {name.charAt(0).toUpperCase()}
+      </div>
+      <div class="review-meta">
+        <h4 style="font-size: 1.125rem; font-weight: 600; color: var(--color-text); margin: 0 0 0.25rem 0;">{name}</h4>
+        {location && <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0 0 0.5rem 0;">{location}</p>}
+        <div class="review-rating">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={`star ${i < rating ? 'filled' : ''}`}>★</span>
+          ))}
+        </div>
       </div>
     </div>
+    
+    <p class="text-muted" style="line-height: 1.6; margin: 0;">{text}</p>
+    
+    <time style="display: block; font-size: 0.875rem; color: var(--color-text-muted);" datetime={date}>{date}</time>
   </div>
-  
-  <p class="review-text">{text}</p>
-  
-  <time class="review-date" datetime={date}>{date}</time>
 </article>
 
 <style>
-  .review-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    transition: all var(--transition-base);
-  }
-
   .review-card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-border-hover);
+    transform: translateY(-2px);
   }
 
   .review-header {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
   }
 
   .review-avatar {
@@ -74,19 +66,6 @@ const { name, date, rating, text, location } = Astro.props;
     flex-grow: 1;
   }
 
-  .review-name {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin: 0 0 0.25rem 0;
-  }
-
-  .review-location {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    margin: 0 0 0.5rem 0;
-  }
-
   .review-rating {
     display: flex;
     gap: 0.25rem;
@@ -99,17 +78,5 @@ const { name, date, rating, text, location } = Astro.props;
 
   .star.filled {
     color: var(--color-primary-500);
-  }
-
-  .review-text {
-    color: var(--color-text);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .review-date {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
   }
 </style>

@@ -25,36 +25,21 @@ const { title, subtitle, description, locationLabel, locationText } = Astro.prop
 ---
 
 <section id="overview" class="section">
-	<div class="container-custom">
+	<div class="container-custom section-content-center">
 		<div class="section-header">
 			<h2 class="section-title">{title}</h2>
 			<p class="section-subtitle">{subtitle}</p>
 		</div>
 
 		<div class="content-wrapper">
-			<div class="overview-text">
-				<p class="overview-description">{description}</p>
-				
-				<div class="info-box">
-					<div class="info-item" style="text-align: center;">
-						<strong class="info-item-label">{locationLabel}:</strong>
-						<span class="info-item-value">{locationText}</span>
-					</div>
+			<p class="description-text">{description}</p>
+			
+			<div class="info-box">
+				<div class="info-item">
+					<strong class="info-item-label">{locationLabel}:</strong>
+					<span class="info-item-value">{locationText}</span>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
-<style>
-	.overview-text {
-		text-align: center;
-	}
-
-	.overview-description {
-		font-size: 1.125rem;
-		line-height: 1.8;
-		color: var(--color-text);
-		margin-bottom: 2rem;
-	}
-</style>

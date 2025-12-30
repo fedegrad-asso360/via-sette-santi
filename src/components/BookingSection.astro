@@ -19,106 +19,47 @@ interface Props {
 const { title, subtitle, options, contactText, contactLink } = Astro.props;
 ---
 
-<section class="booking-section">
-  <div class="section-header">
-    <h2 class="section-title">{title}</h2>
-    <p class="section-subtitle">{subtitle}</p>
-  </div>
+<section class="section section-alt">
+  <div class="container-custom section-content-center">
+    <div class="section-header">
+      <h2 class="section-title">{title}</h2>
+      <p class="section-subtitle">{subtitle}</p>
+    </div>
 
-  <div class="content-wrapper-lg">
-    <div class="grid-auto-fit" style="--grid-min-width: 300px;">
-      {options.map((option, index) => (
-      <div class="booking-option">
-        <div class="booking-option-header">
-          <h3 class="booking-option-title">{option.title}</h3>
-          <p class="booking-option-description">{option.description}</p>
-        </div>
-        
-        <ul class="booking-features">
-          {option.features.map((feature) => (
-            <li class="booking-feature">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M16.667 5L7.5 14.167L3.333 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
+    <div class="content-wrapper-lg">
+      <div class="grid-auto-fit" style="--grid-min-width: 300px;">
+        {options.map((option) => (
+          <div class="card-base booking-card">
+            <div class="card-content">
+              <h3 class="card-title">{option.title}</h3>
+              <p class="text-muted">{option.description}</p>
+              
+              <ul class="feature-list">
+                {option.features.map((feature) => (
+                  <li class="feature-item">
+                    <svg class="feature-item-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M16.667 5L7.5 14.167L3.333 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
 
-        <a href={contactLink} class="booking-button btn btn-outline">
-          {contactText}
-        </a>
+              <a href={contactLink} class="btn btn-outline" style="width: 100%; justify-content: center;">
+                {contactText}
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
-      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .booking-section {
-    /* Stili specifici se necessari */
-  }
-
-  .booking-option {
-    background-color: var(--color-surface);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    transition: all var(--transition-base);
-  }
-
-  .booking-option:hover {
+  .booking-card:hover {
     border-color: var(--color-primary-500);
     box-shadow: var(--shadow-xl);
     transform: translateY(-4px);
-  }
-
-  .booking-option-header {
-    margin-bottom: 1.5rem;
-  }
-
-  .booking-option-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: 0.5rem;
-  }
-
-  .booking-option-description {
-    color: var(--color-text-muted);
-    line-height: 1.6;
-  }
-
-  .booking-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 2rem 0;
-    flex-grow: 1;
-  }
-
-  .booking-feature {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    color: var(--color-text);
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .booking-feature:last-child {
-    border-bottom: none;
-  }
-
-  .booking-feature svg {
-    color: var(--color-accent-600);
-    flex-shrink: 0;
-    margin-top: 0.125rem;
-  }
-
-  .booking-button {
-    width: 100%;
-    justify-content: center;
   }
 </style>

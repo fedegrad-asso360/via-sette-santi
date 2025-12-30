@@ -145,6 +145,47 @@ Griglia responsive con `auto-fill` (crea tutte le colonne possibili, anche vuote
 
 ### Componenti
 
+#### `.card-base`
+Classe base per tutti i componenti card (sostituisce custom card styles).
+- **Background**: `--color-surface`
+- **Border**: 1px solid `--color-border`
+- **Border-radius**: `--radius-xl`
+- **Layout**: Flexbox column
+- **Hover**: Shadow e border color change
+- **Uso**: Base per TrailCard, SaintCard, ReviewCard, BookingCard
+
+```astro
+<article class="card-base">
+  <div class="card-image" style="height: 200px;">
+    <img src="..." alt="..." />
+  </div>
+  <div class="card-content">
+    <h3 class="card-title">Titolo</h3>
+    <p class="text-muted">Descrizione</p>
+    <a href="..." class="card-link">Link →</a>
+  </div>
+</article>
+```
+
+#### `.card-image`
+Container per immagini delle card.
+- **Width**: 100%
+- **Overflow**: hidden
+- **Hover**: Zoom effect (scale 1.05)
+- **Personalizzabile**: Aggiungi `style="height: XXXpx"` per altezza custom
+
+#### `.card-content`
+Container per il contenuto delle card.
+- **Padding**: 1.5rem
+- **Layout**: Flexbox column con gap 0.75rem
+- **Flex-grow**: 1 (riempie spazio disponibile)
+
+#### `.card-link`
+Link stilizzato per card con freccia.
+- **Color**: `--color-primary-600`
+- **Hover**: Color change + gap increase (effetto freccia)
+- **Margin-top**: auto (si posiziona in fondo)
+
 #### `.info-box`
 Box informativo con bordo e sfondo.
 - **Padding desktop**: 2rem
@@ -172,7 +213,7 @@ Elemento informativo (label + valore).
 ```
 
 #### `.feature-list` & `.feature-item`
-Lista di caratteristiche/features.
+Lista di caratteristiche/features con icone e bordi.
 
 ```astro
 <ul class="feature-list">
@@ -193,6 +234,31 @@ Reset stile lista (rimuove bullets e padding).
   <li>Item 1</li>
   <li>Item 2</li>
 </ul>
+```
+
+#### `.description-text`
+Testo descrittivo con formattazione ottimizzata.
+- **Font-size**: 1.125rem (18px)
+- **Line-height**: 1.8
+- **Margin-bottom**: 2rem
+- **Uso**: Overview, descrizioni lunghe
+
+```astro
+<p class="description-text">{longDescription}</p>
+```
+
+#### `.section-content-center`
+Centra il contenuto di una sezione usando flexbox.
+- **Display**: flex
+- **Flex-direction**: column
+- **Align-items**: center
+- **Text-align**: center
+- **Uso**: Applicato al container-custom per centrare tutto il contenuto
+
+```astro
+<div class="container-custom section-content-center">
+  <!-- Tutto il contenuto sarà centrato -->
+</div>
 ```
 
 ## Variabili CSS
