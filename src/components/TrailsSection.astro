@@ -59,7 +59,7 @@ const getDifficultyLabel = (difficulty: string): string => {
 			<p class="section-subtitle">{subtitle}</p>
 		</div>
 
-		<div class="grid-auto-fill" style="--grid-min-width: 350px;">
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 			{sortedTrails.map((trail) => (
 				<TrailCard
 					number={trail.data.number}

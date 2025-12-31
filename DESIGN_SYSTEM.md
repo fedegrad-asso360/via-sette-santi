@@ -232,9 +232,9 @@ Documentazione del sistema di design scalabile e riutilizzabile del progetto.
 #### `.container-custom`
 Container principale del sito con larghezza massima e padding responsive.
 - **Max-width**: 1280px
-- **Padding mobile**: 1rem (con safe-area)
-- **Padding tablet (≥768px)**: 1.5rem
-- **Padding desktop (≥1024px)**: 2rem
+- **Padding mobile**: 1.25rem (20px) - con safe-area
+- **Padding tablet (≥768px)**: 1.5rem (24px)
+- **Padding desktop (≥1024px)**: 2rem (32px)
 
 ```astro
 <div class="container-custom">
@@ -290,6 +290,57 @@ Sezione con sfondo alternativo (usa `--color-surface`).
   <!-- Contenuto -->
 </section>
 ```
+
+#### `.section-spacing`
+Aggiunge spaziatura superiore tra sezioni per migliorare la separazione visiva.
+- **Desktop**: 5rem (80px)
+- **Tablet (≤1024px)**: 4rem (64px)
+- **Mobile (≤768px)**: 3rem (48px)
+- **Uso**: Tra sezioni principali della pagina
+
+```astro
+<div class="section-spacing">
+  <OverviewSection ... />
+</div>
+```
+
+#### `.section-spacing-lg`
+Spaziatura superiore grande tra sezioni.
+- **Desktop**: 7rem (112px)
+- **Tablet (≤1024px)**: 5.5rem (88px)
+- **Mobile (≤768px)**: 4rem (64px)
+- **Uso**: Per enfatizzare separazioni importanti (es. dopo hero)
+
+```astro
+<div class="section-spacing-lg">
+  <TrailsSection ... />
+</div>
+```
+
+#### `.section-spacing-xl`
+Spaziatura superiore extra-large tra sezioni.
+- **Desktop**: 9rem (144px)
+- **Tablet (≤1024px)**: 7rem (112px)
+- **Mobile (≤768px)**: 5rem (80px)
+- **Uso**: Per separazioni drammatiche tra macro-sezioni
+
+#### `.component-spacing`
+Aggiunge spaziatura tra componenti all'interno di una sezione.
+- **Desktop**: 3rem (48px)
+- **Mobile (≤768px)**: 2rem (32px)
+- **Uso**: Tra elementi correlati dentro la stessa sezione
+
+```astro
+<div class="component-spacing">
+  <InfoBox ... />
+</div>
+```
+
+#### `.component-spacing-lg`
+Spaziatura grande tra componenti.
+- **Desktop**: 4rem (64px)
+- **Mobile (≤768px)**: 2.5rem (40px)
+- **Uso**: Per maggiore separazione tra componenti
 
 #### `.section-header`
 Header standard per le sezioni (centrato, con max-width).
@@ -357,7 +408,12 @@ Griglia responsive con `auto-fill` (crea tutte le colonne possibili, anche vuote
 </div>
 ```
 
-**Responsive**: Su mobile (≤640px) entrambe le griglie diventano single-column con gap ridotto a 1.5rem.
+**Responsive**: Su mobile (≤640px) entrambe le griglie diventano single-column con gap ridotto a 1.5rem e padding laterale aggiuntivo di 0.5rem per evitare che le card tocchino i bordi dello schermo.
+
+**Note sull'uso**:
+- Le griglie hanno già padding interno su mobile, non serve aggiungere wrapper extra
+- Il `container-custom` circostante fornisce il padding base
+- Su mobile il padding totale è: container (1.25rem) + griglia (0.5rem) = 1.75rem per lato
 
 ### Componenti
 
