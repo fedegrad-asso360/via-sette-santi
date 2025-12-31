@@ -103,59 +103,55 @@ const bookingOptions = [
 	/>
 
 	<!-- Overview Section -->
-	<div class="section-spacing-lg">
-		<OverviewSection
-			title={t('overview.title')}
-			subtitle={t('overview.subtitle')}
-			description={t('overview.description')}
-			locationLabel={t('overview.location')}
-			locationText={t('overview.locationText')}
-		/>
-	</div>
+	<OverviewSection
+		class="mt-28 lg:mt-32 xl:mt-36"
+		title={t('overview.title')}
+		subtitle={t('overview.subtitle')}
+		description={t('overview.description')}
+		locationLabel={t('overview.location')}
+		locationText={t('overview.locationText')}
+	/>
 
 	<!-- Trails Section -->
-	<div class="section-spacing-lg">
-		<TrailsSection
-			title={t('trails.title')}
-			subtitle={t('trails.subtitle')}
-			trails={allTrails}
-			lang={lang}
-			translations={{
-				distance: t('trails.distance'),
-				duration: t('trails.duration'),
-				difficulty: t('trails.difficulty'),
-				viewDetails: t('trails.viewDetails'),
-				easy: t('trails.difficulty.easy'),
-				moderate: t('trails.difficulty.moderate'),
-				hard: t('trails.difficulty.hard')
-			}}
-		/>
-	</div>
+	<TrailsSection
+		class="mt-28 lg:mt-32 xl:mt-36"
+		title={t('trails.title')}
+		subtitle={t('trails.subtitle')}
+		trails={allTrails}
+		lang={lang}
+		translations={{
+			distance: t('trails.distance'),
+			duration: t('trails.duration'),
+			difficulty: t('trails.difficulty'),
+			viewDetails: t('trails.viewDetails'),
+			easy: t('trails.difficulty.easy'),
+			moderate: t('trails.difficulty.moderate'),
+			hard: t('trails.difficulty.hard')
+		}}
+	/>
 
 	<!-- Saints Section -->
-	<div class="section-spacing-lg">
-		<SaintsSection
-			title={t('saints.title')}
-			subtitle={t('saints.subtitle')}
-			saints={allSaints}
-			lang={lang}
-			translations={{
-				learnMore: t('saints.learnMore')
-			}}
-		/>
-	</div>
+	<SaintsSection
+		class="mt-28 lg:mt-32 xl:mt-36"
+		title={t('saints.title')}
+		subtitle={t('saints.subtitle')}
+		saints={allSaints}
+		lang={lang}
+		translations={{
+			learnMore: t('saints.learnMore')
+		}}
+	/>
 
 	<!-- Reviews Section -->
-	<div class="section-spacing-lg">
-		<ReviewsSection
-			title={t('reviews.title')}
-			subtitle={t('reviews.subtitle')}
-			reviews={sampleReviews}
-		/>
-	</div>
+	<ReviewsSection
+		class="mt-28 lg:mt-32 xl:mt-36"
+		title={t('reviews.title')}
+		subtitle={t('reviews.subtitle')}
+		reviews={sampleReviews}
+	/>
 
 	<!-- Booking Section -->
-	<section id="booking" class="section section-spacing-lg">
+	<section id="booking" class="section mt-28 lg:mt-32 xl:mt-36">
 		<div class="container-custom">
 			<BookingSection
 				title={t('booking.title')}

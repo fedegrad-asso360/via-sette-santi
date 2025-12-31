@@ -21,6 +21,7 @@ export interface Props {
 	subtitle: string;
 	trails: any[]; // Collection entries
 	lang: string;
+	class?: string;
 	translations: {
 		distance: string;
 		duration: string;
@@ -32,7 +33,7 @@ export interface Props {
 	};
 }
 
-const { title, subtitle, trails, lang, translations } = Astro.props;
+const { title, subtitle, trails, lang, translations, class: className } = Astro.props;
 
 // Sort trails by number
 const sortedTrails = trails.sort((a, b) => a.data.number - b.data.number);
@@ -52,7 +53,7 @@ const getDifficultyLabel = (difficulty: string): string => {
 };
 ---
 
-<section id="trails" class="section section-alt">
+<section id="trails" class:list={["section", "section-alt", className]}>
 	<div class="container-custom section-content-center">
 		<div class="section-header">
 			<h2 class="section-title">{title}</h2>
