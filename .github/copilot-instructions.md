@@ -142,6 +142,25 @@ src/
 - `.feature-list`, `.feature-item`, `.feature-item-icon` - Feature list elements
 - `.list-reset` - Reset list styling (no bullets, no padding)
 
+#### Card System - Modern Lightweight Design
+**Use these classes for all card-based components:**
+- `.card` - Base card with shadow (no borders), hover effect, responsive layout
+- `.card-image` - Image container (12rem height, object-fit cover)
+- `.card-image-overlay` - Gradient overlay for images
+- `.card-content` - Content area with padding and flex layout
+- `.card-link` - Link with arrow icon, auto margin-top
+- `.card-link-arrow` - Arrow icon for links (1rem size)
+- `.card-icon` - Generic icon (1rem size)
+- `.card-badge` - Badge/pill for status or category
+- `.card-footer` - Footer layout (flex space-between)
+
+**Card Design Principles:**
+- Use **shadows** instead of borders for depth
+- Keep design **lightweight and clean**
+- Minimize redundant styling
+- Component-specific CSS only for unique features
+- Leverage global utilities maximally
+
 ### Standard Page Pattern
 ```astro
 <BaseLayout>
@@ -174,6 +193,39 @@ src/
     </div>
   </div>
 </section>
+```
+
+### Card Component Pattern
+```astro
+<article class="card">
+  <div class="card-image">
+    <img src={image} alt={title} loading="lazy" />
+    <!-- Optional: overlay for text/badges on image -->
+    <div class="card-image-overlay">
+      <div>Overlay content</div>
+    </div>
+  </div>
+  <div class="card-content">
+    <h3 class="card-title">{title}</h3>
+    <p class="text-muted">{description}</p>
+    
+    <!-- Custom component-specific content -->
+    
+    <div class="card-footer">
+      <span class="card-badge">{status}</span>
+      <a href={link} class="card-link">
+        Learn more
+        <svg class="card-link-arrow"><!-- arrow icon --></svg>
+      </a>
+    </div>
+  </div>
+</article>
+
+<!-- Component-specific styles (minimal) -->
+<style>
+  /* Only truly unique styling here */
+  .component-specific-class { ... }
+</style>
 ```
 
 ### CSS Variables Usage
