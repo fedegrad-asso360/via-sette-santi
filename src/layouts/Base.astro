@@ -4,6 +4,7 @@ import LanguagePicker from "../components/LanguagePicker.astro";
 import Navbar from "../components/Navbar.astro";
 import { defaultLang, languages } from "../i18n/languages";
 import { getResourceRoute } from "../utils/path";
+import "../styles/global.css";
 
 const { lang: currentLang } = Astro.params; // current selected language in the URL
 const baseUrl = import.meta.env.BASE_URL; // base path of the site

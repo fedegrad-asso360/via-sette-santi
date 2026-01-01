@@ -102,7 +102,7 @@ src/
 - **Performance**: Smaller CSS bundle through shared classes
 
 ### Styling Architecture
-- `global.css` is imported in the main index `src/pages/index.astro`
+- `global.css` is imported in the base common layout `src/layouts/Base.astro`
 - All CSS variables defined in `@theme` block in `global.css`
 - Utility classes defined in `@layer utilities` in `global.css`
 - Component-specific styles only for truly unique styling needs
