@@ -39,9 +39,7 @@ const { name, date, rating, text, location } = Astro.props;
 </article>
 
 <style>
-  .review-card:hover {
-    transform: translateY(-2px);
-  }
+  /* Review card uses default card hover shadow from global.css */
 
   .review-header {
     display: flex;
@@ -60,7 +58,7 @@ const { name, date, rating, text, location } = Astro.props;
     font-size: 1.25rem;
     font-weight: 700;
     flex-shrink: 0;
-    border: 2px solid var(--color-primary-200);
+    border: 2px solid var(--color-primary-300);
   }
 
   .review-meta {

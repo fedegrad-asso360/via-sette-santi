@@ -11,56 +11,36 @@
      ============================================ */
   
   /* Primary: Trail Green #5a8a6b (main brand color) */
-  --color-primary-50: #f2f9f5;
-  --color-primary-100: #e1f1e8;
-  --color-primary-200: #c4e3d2;
   --color-primary-300: #9bcfb4;
   --color-primary-400: #6eb490;
   --color-primary-500: #5a8a6b;
   --color-primary-600: #4a7558;
   --color-primary-700: #3d5f48;
   --color-primary-800: #334d3b;
-  --color-primary-900: #2b4032;
-  --color-primary-950: #18251e;
 
   /* Secondary: Trail Brown #5e3b20 (earth tones) */
-  --color-secondary-50: #faf7f5;
-  --color-secondary-100: #f5ede6;
-  --color-secondary-200: #e8d6c7;
   --color-secondary-300: #d4b299;
   --color-secondary-400: #b8855f;
   --color-secondary-500: #9d6d48;
   --color-secondary-600: #7d5538;
   --color-secondary-700: #5e3b20;
   --color-secondary-800: #4d311b;
-  --color-secondary-900: #3d2716;
-  --color-secondary-950: #24170d;
 
   /* Accent: Trail Sky #87a8c3 (highlights) */
-  --color-accent-50: #f5f9fc;
-  --color-accent-100: #ebf2f8;
-  --color-accent-200: #d2e3ef;
   --color-accent-300: #aacce2;
   --color-accent-400: #87a8c3;
   --color-accent-500: #6b8fae;
   --color-accent-600: #577493;
   --color-accent-700: #485f78;
   --color-accent-800: #3d4f63;
-  --color-accent-900: #344252;
-  --color-accent-950: #222a35;
 
   /* Gold: Trail Gold #d4af37 (spiritual accents) */
-  --color-gold-50: #fdfbf3;
-  --color-gold-100: #faf5e0;
-  --color-gold-200: #f4e8b8;
   --color-gold-300: #edd685;
   --color-gold-400: #e4bf51;
   --color-gold-500: #d4af37;
   --color-gold-600: #b89127;
   --color-gold-700: #956e22;
   --color-gold-800: #7a5823;
-  --color-gold-900: #684923;
-  --color-gold-950: #3c2712;
 
   /* Semantic Colors - Light & Dark Mode Optimized */
   --color-background: light-dark(#f8faf9, #1a1f1c);
@@ -697,7 +677,7 @@
   .card-image-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(90, 138, 107, 0.8), transparent);
+    background: linear-gradient(to top, rgb(from var(--color-primary-600) r g b / 0.8), transparent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -766,79 +746,6 @@
     font-weight: 600;
     font-size: 0.9375rem;
     margin: 0;
-  }
-
-  /* Modern Badge Utility */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-xl);
-    font-size: 0.875rem;
-    font-weight: 600;
-    border: 1px solid;
-  }
-
-  .badge-primary {
-    background: light-dark(
-      rgb(167 124 82 / 0.1),
-      rgb(167 124 82 / 0.2)
-    );
-    color: var(--color-primary-700);
-    border-color: var(--color-primary-300);
-  }
-
-  .badge-secondary {
-    background: light-dark(
-      rgb(90 138 107 / 0.1),
-      rgb(90 138 107 / 0.2)
-    );
-    color: var(--color-primary-700);
-    border-color: var(--color-primary-300);
-  }
-
-  .badge-accent {
-    background: light-dark(
-      rgb(2 132 199 / 0.1),
-      rgb(2 132 199 / 0.2)
-    );
-    color: var(--color-accent-700);
-    border-color: var(--color-accent-300);
-  }
-
-  .badge-gold {
-    background-color: var(--color-gold-100);
-    color: var(--color-gold-800);
-    border-color: var(--color-gold-400);
-  }
-
-  /* Difficulty Badge Variants */
-  .badge-easy {
-    background: light-dark(
-      rgb(94 59 32 / 0.1),
-      rgb(94 59 32 / 0.2)
-    );
-    color: var(--color-secondary-600);
-    border-color: var(--color-secondary-300);
-  }
-
-  .badge-moderate {
-    background: light-dark(
-      rgb(212 175 55 / 0.1),
-      rgb(212 175 55 / 0.2)
-    );
-    color: var(--color-gold-600);
-    border-color: var(--color-gold-300);
-  }
-
-  .badge-hard {
-    background: light-dark(
-      rgb(135 168 195 / 0.1),
-      rgb(135 168 195 / 0.2)
-    );
-    color: var(--color-accent-700);
-    border-color: var(--color-accent-300);
   }
 }
 

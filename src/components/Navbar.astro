@@ -13,7 +13,8 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
       <!-- Logo (left-aligned, well visible) -->
       <a
         href={getRelativeLocaleUrl(currentLang ?? defaultLang, "")}
-        class="flex items-center gap-2 no-underline transition-opacity duration-200 flex-shrink-0 hover:opacity-80"
+        class="flex items-center gap-2 no-underline flex-shrink-0 hover:opacity-80"
+        style="transition: opacity var(--transition-fast);"
         aria-label="Via dei Sette Santi Home"
       >
         <Image
@@ -52,7 +53,8 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
           <button
             id="mobile-menu-toggle"
             type="button"
-            class="md:hidden inline-flex items-center justify-center w-10 h-10 text-white hover:text-gold-400 transition-colors duration-200 focus:outline-none focus:text-gold-400"
+            class="md:hidden inline-flex items-center justify-center w-10 h-10 text-white hover:text-gold-400 focus:outline-none focus:text-gold-400"
+            style="transition: color var(--transition-fast);"
             aria-label="Toggle mobile menu"
             aria-expanded="false"
           >
@@ -84,17 +86,17 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
       <div class="flex flex-col space-y-2 pt-3">
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "")}
-          class="text-white no-underline font-semibold py-2 px-2 rounded-md transition-colors duration-200 hover:bg-primary-700 hover:text-gold-200">Home</a
+          class="mobile-nav-link">Home</a
         >
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/trails")}
-          class="text-white no-underline font-semibold py-2 px-2 rounded-md transition-colors duration-200 hover:bg-primary-700 hover:text-gold-200">Trails</a
+          class="mobile-nav-link">Trails</a
         >
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/saints")}
-          class="text-white no-underline font-semibold py-2 px-2 rounded-md transition-colors duration-200 hover:bg-primary-700 hover:text-gold-200">Saints</a
+          class="mobile-nav-link">Saints</a
         >
-        <a href="#" class="text-white no-underline font-semibold py-2 px-2 rounded-md transition-colors duration-200 hover:bg-primary-700 hover:text-gold-200">Contact</a>
+        <a href="#" class="mobile-nav-link">Contact</a>
         
         <!-- Theme Toggle in mobile menu -->
         <div class="pt-2 border-t border-white/10">
@@ -117,7 +119,7 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
     font-size: 0.9375rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    transition: color 200ms;
+    transition: color var(--transition-fast);
   }
 
   .nav-link::after {
@@ -128,7 +130,7 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
     width: 0;
     height: 2px;
     background-color: var(--color-gold-400);
-    transition: width 200ms;
+    transition: width var(--transition-fast);
   }
 
   .nav-link:hover {
@@ -137,6 +139,20 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
 
   .nav-link:hover::after {
     width: 100%;
+  }
+
+  .mobile-nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-nav-link:hover {
+    background-color: var(--color-primary-700);
+    color: var(--color-gold-300);
   }
 </style>
 
