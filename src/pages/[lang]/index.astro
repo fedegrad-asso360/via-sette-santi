@@ -92,7 +92,13 @@ const bookingOptions = [
 ];
 ---
 
-<BaseLayout>
+<BaseLayout
+	title={`${t('hero.title')} | ${t('hero.subtitle')}`}
+	description={t('overview.description')}
+	ogImage="images/hero-1.jpg"
+	ogType="website"
+	preloadImage="images/hero-1.jpg"
+>
 	<!-- Hero Carousel -->
 	<HeroCarousel 
 		title={t('hero.title')}

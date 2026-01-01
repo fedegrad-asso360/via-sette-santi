@@ -39,7 +39,7 @@ export default defineConfig({
     },
     changefreq: 'weekly',
     priority: 0.7,
-    lastmod: new Date('2025-12-30T00:00:00Z'),
+    lastmod: new Date(), // Dynamic build time
     filter: (page) => !['/'].includes(page) // exclude homepage redirect
   })]
 });

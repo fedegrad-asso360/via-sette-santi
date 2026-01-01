@@ -667,4 +667,91 @@
     color: var(--color-primary-700);
     text-decoration: underline;
   }
+
+  /* ============================================
+     Accessibility & Focus States
+     ============================================ */
+
+  /* Skip to main content link for screen readers */
+  .skip-to-main {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary-600);
+    color: white;
+    padding: var(--spacing-2) var(--spacing-4);
+    text-decoration: none;
+    z-index: 100;
+  }
+
+  .skip-to-main:focus {
+    top: 0;
+  }
+
+  /* Focus states for interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Card focus state */
+  .card:focus-within {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 2px;
+  }
+
+  /* Button focus states */
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 4px;
+  }
+
+  .btn-secondary:focus-visible {
+    outline-color: var(--color-secondary-600);
+  }
+
+  .btn-accent:focus-visible {
+    outline-color: var(--color-accent-600);
+  }
+
+  .btn-gold:focus-visible {
+    outline-color: var(--color-gold-500);
+  }
+
+  /* Link focus state */
+  .link:focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Remove default outline for mouse users, keep for keyboard */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Ensure sufficient contrast in dark mode */
+  @media (prefers-color-scheme: dark) {
+    a:focus-visible,
+    button:focus-visible {
+      outline-color: var(--color-primary-400);
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

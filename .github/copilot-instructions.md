@@ -90,7 +90,156 @@ src/
 
 ## SEO
 - Alternate "hreflang" and Canonical tags to optimize SEO for multi-language setup are generated in the common layout `src/layouts/Base.astro`
-- Site Map for SEO dynamically generated from ``astro.config.mjs`` with i18n support (https://docs.astro.build/en/guides/integrations-guide/sitemap/)
+- Site Map for SEO dynamically generated from `astro.config.mjs` with i18n support (https://docs.astro.build/en/guides/integrations-guide/sitemap/)
+
+### SEO Best Practices - CRITICAL
+**Every page MUST have proper SEO metadata.** The Base layout accepts these props:
+
+```typescript
+interface Props {
+  title?: string;              // Page title (default: "Via dei Sette Santi")
+  description?: string;        // Meta description for search engines
+  ogImage?: string;            // Open Graph image (relative or absolute URL)
+  ogType?: "website" | "article"; // OG type (default: "website")
+  preloadImage?: string;       // Critical image to preload
+  noindex?: boolean;          // Set true for 404, private pages
+}
+```
+
+**Required for all pages:**
+1. **Title**: Unique, descriptive, 50-60 characters
+2. **Description**: Compelling summary, 150-160 characters
+3. **OG Image**: Representative image for social sharing
+
+**Example Usage:**
+```astro
+<BaseLayout
+  title="Trail Stage 1 - Amandola to San Leonardo | Via dei Sette Santi"
+  description="Discover the first stage of the Via dei Sette Santi: 12km moderate trail from Amandola to San Leonardo through stunning Sibillini landscapes."
+  ogImage="images/trails/trail-1.jpg"
+  ogType="article"
+  preloadImage="images/hero-trail-1.jpg"
+>
+```
+
+**Open Graph & Twitter Cards:**
+- Automatically generated from title, description, and ogImage props
+- Ensures proper preview on Facebook, Twitter, LinkedIn, WhatsApp
+- Images should be at least 1200×630px for optimal social sharing
+
+**Canonical URLs & Hreflang:**
+- Automatically generated for each language version
+- Prevents duplicate content issues
+- Helps search engines understand multi-language structure
+
+### Structured Data (Schema.org)
+**TODO**: Implement JSON-LD structured data for:
+- Trail pages: `https://schema.org/Trail`
+- Saints/Churches: `https://schema.org/Place` or `https://schema.org/Church`
+- Reviews: `https://schema.org/Review`
+- Events: `https://schema.org/Event`
+
+Example for trail pages:
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Trail",
+  "name": "Via dei Sette Santi - Stage 1",
+  "description": "...",
+  "distance": "12 km",
+  "difficulty": "moderate",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "...",
+    "longitude": "..."
+  }
+}
+```
+
+## Accessibility
+
+### Core Principles (WCAG 2.1 AA Compliance)
+**All features must be accessible to users with disabilities.**
+
+### Focus States - IMPLEMENTED ✅
+- All interactive elements (links, buttons, inputs) have visible focus indicators
+- 2px outline with 2px offset for clarity
+- Focus states work in both light and dark modes
+- Located in `src/styles/global.css` under "Accessibility & Focus States"
+
+### Keyboard Navigation Requirements
+1. **Tab order must be logical**: Follow visual flow
+2. **Skip to main content**: Add for screen reader users (TODO)
+3. **No keyboard traps**: Users can always escape with Tab/Shift+Tab
+4. **Enter/Space activate buttons**: Standard behavior
+
+### ARIA Labels & Semantic HTML
+- Use semantic HTML5 elements: `<nav>`, `<main>`, `<article>`, `<section>`
+- Add ARIA labels for icon-only buttons: `aria-label="Close menu"`
+- Use `aria-expanded` for collapsible elements (already in LanguagePicker)
+- Use `aria-live` for dynamic content updates
+- Never use `div` or `span` where semantic elements exist
+
+### Color Contrast
+- Text must meet WCAG AA standards (4.5:1 for normal text, 3:1 for large)
+- Links must be distinguishable from surrounding text
+- Color cannot be the only visual indicator (use icons, underlines)
+
+### Images & Media
+- All images must have descriptive `alt` text
+- Decorative images: `alt=""` (empty, not missing)
+- Use `loading="lazy"` for non-critical images
+- Use `decoding="async"` for better performance
+
+### Reduced Motion Support - IMPLEMENTED ✅
+- Respects `prefers-reduced-motion: reduce`
+- Disables animations for users with vestibular disorders
+- Located in `src/styles/global.css`
+
+### Screen Reader Considerations
+- Use descriptive link text (avoid "click here")
+- Provide context for screen reader users
+- Test with NVDA (Windows) or VoiceOver (Mac)
+
+### 404 Pages - IMPLEMENTED ✅
+- Created for all languages at `src/pages/[lang]/404.astro`
+- Clear error message and navigation back to home
+- Includes `noindex` meta tag to exclude from search engines
+
+## Performance
+
+### Image Optimization
+**CURRENT**: Using plain `<img>` tags
+**TODO**: Migrate to Astro's `Image` component for:
+- Automatic WebP/AVIF conversion
+- Responsive `srcset` generation
+- Lazy loading with native browser support
+- Proper width/height to prevent layout shift
+
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/images/hero-1.jpg';
+---
+<Image 
+  src={heroImage} 
+  alt="Sibillini Mountains landscape"
+  widths={[400, 800, 1200]}
+  loading="lazy"
+  decoding="async"
+/>
+```
+
+### Critical Assets Preloading - IMPLEMENTED ✅
+- Hero images can be preloaded via Base layout's `preloadImage` prop
+- Reduces Largest Contentful Paint (LCP)
+- Use for above-the-fold critical images only
+
+### Build Optimization
+- Astro automatically optimizes CSS/JS bundles
+- Use `client:load` sparingly (prefer `client:idle` or `client:visible`)
+- Static generation (SSG) for all routes
+- No hydration needed for content pages
 
 ## Design System & Styling
 
@@ -247,11 +396,171 @@ For complete documentation, see `DESIGN_SYSTEM.md` in project root.
 - Use Astro's built-in optimization features
 
 ### SEO Considerations
-- Include meta descriptions for all pages
-- Use proper heading hierarchy (h1, h2, h3)
-- Generate sitemap.xml (Astro can do this)
-- Add structured data for trail/event pages (schema.org)
-- Implement Open Graph tags for social sharing
+- ✅ **Meta descriptions implemented** for all pages via Base layout props
+- ✅ **Proper heading hierarchy** (h1, h2, h3) enforced
+- ✅ **Sitemap.xml generated** with i18n support and dynamic lastmod
+- 🔲 **Structured data** (schema.org) - TODO for trail/event pages
+- ✅ **Open Graph tags implemented** for social sharing
+- ✅ **Twitter Card tags** for rich previews
+- ✅ **Canonical URLs** and hreflang for multi-language
+- ✅ **404 pages** created for all languages with noindex
+
+## Implementing New Features
+
+### Checklist for Every New Page
+When creating a new page, follow this checklist:
+
+**SEO Requirements:**
+- [ ] Pass `title` prop to BaseLayout (unique, descriptive, 50-60 chars)
+- [ ] Pass `description` prop (compelling, 150-160 chars)
+- [ ] Pass `ogImage` prop (representative image for social sharing)
+- [ ] Set `ogType` to "article" for content pages, "website" for index pages
+- [ ] Add `preloadImage` for critical above-the-fold images
+- [ ] Use proper heading hierarchy (one h1, then h2, h3 in order)
+
+**Accessibility Requirements:**
+- [ ] Use semantic HTML (nav, main, article, section, etc.)
+- [ ] Add descriptive alt text for all images
+- [ ] Ensure all interactive elements are keyboard accessible
+- [ ] Test focus states (tab through the page)
+- [ ] Add ARIA labels for icon-only buttons
+- [ ] Verify color contrast meets WCAG AA standards
+- [ ] Test with screen reader if possible
+
+**i18n Requirements:**
+- [ ] Add translations to `src/i18n/ui.ts` for all languages
+- [ ] Use `useTranslations(lang)` helper for all UI strings
+- [ ] Create content in all supported languages (en, it, de)
+- [ ] Test language switching maintains current page context
+- [ ] Verify hreflang tags are generated correctly
+
+**Design System Requirements:**
+- [ ] Use utility classes from `src/styles/global.css`
+- [ ] Follow card system patterns for card-based layouts
+- [ ] Use CSS custom properties (--color-*, --spacing-*, etc.)
+- [ ] Maintain responsive design (mobile-first)
+- [ ] Test in both light and dark modes
+- [ ] Verify reduced motion support
+
+**Performance Requirements:**
+- [ ] Use lazy loading for below-the-fold images
+- [ ] Preload critical assets if needed
+- [ ] Minimize custom CSS (prefer utilities)
+- [ ] Test build time and bundle size
+- [ ] Verify no layout shift (CLS)
+
+### Creating New Content Collections
+When adding a new content type (e.g., blog posts, events):
+
+1. **Define Schema** in `src/content.config.ts`:
+```typescript
+const blogCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.date(),
+    author: z.string(),
+    image: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+```
+
+2. **Create Directory Structure**:
+```
+src/content/blog/
+  ├── en/
+  ├── it/
+  └── de/
+```
+
+3. **Create Collection Page** at `src/pages/[lang]/blog/[...slug].astro`:
+```astro
+export async function getStaticPaths() {
+  const pages = await getCollection("blog", ({ data }) => {
+    return !data.draft; // Filter out drafts
+  });
+  return pages.map((page) => {
+    const [lang, ...slug] = page.id.split("/");
+    return { params: { lang, slug: slug.join("/") }, props: page };
+  });
+}
+```
+
+4. **Add SEO metadata** following the checklist above
+
+5. **Add translations** to `src/i18n/ui.ts` for UI elements
+
+### Adding Interactive Features
+When adding JavaScript interactivity:
+
+**Hydration Strategy:**
+- `client:load` - Critical, above-the-fold interactivity (use sparingly)
+- `client:idle` - Non-critical, when browser is idle (preferred)
+- `client:visible` - Load when element enters viewport (for below-fold)
+- `client:only` - For framework-specific components
+
+**Example:**
+```astro
+<InteractiveMap client:visible lang={lang} />
+```
+
+### Component Development Pattern
+When creating new components:
+
+1. **Check if utility classes exist** in `global.css` first
+2. **Create minimal custom CSS** only for truly unique styling
+3. **Use TypeScript** for props interface
+4. **Add JSDoc comments** for complex props
+5. **Test in all supported languages**
+6. **Verify accessibility** (keyboard, screen reader, focus states)
+
+**Example:**
+```astro
+---
+interface Props {
+  title: string;
+  description?: string;
+  variant?: 'primary' | 'secondary';
+  class?: string;
+}
+
+const { title, description, variant = 'primary', class: className } = Astro.props;
+---
+
+<div class:list={['card', className]}>
+  <h3 class="card-title">{title}</h3>
+  {description && <p class="text-muted">{description}</p>}
+</div>
+```
+
+## Testing
+
+### Pre-Deployment Checklist
+Before deploying to production:
+
+- [ ] Run `npm run build` successfully
+- [ ] Test all language versions (en, it, de)
+- [ ] Verify SEO metadata in browser DevTools
+- [ ] Test Open Graph preview (Facebook Sharing Debugger, Twitter Card Validator)
+- [ ] Check accessibility with Lighthouse (aim for 95+ score)
+- [ ] Test keyboard navigation
+- [ ] Verify dark mode appearance
+- [ ] Test on mobile devices (responsive design)
+- [ ] Check sitemap.xml generation
+- [ ] Verify all internal links work
+- [ ] Test 404 page for all languages
+- [ ] Review console for errors/warnings
+
+### Useful Testing Tools
+- **Lighthouse** (Chrome DevTools): Performance, SEO, Accessibility audits
+- **WAVE** (browser extension): Accessibility evaluation
+- **Facebook Sharing Debugger**: Test Open Graph tags
+- **Twitter Card Validator**: Test Twitter cards
+- **Mobile-Friendly Test** (Google): Mobile usability
+- **PageSpeed Insights**: Real-world performance data
 
 ## Future Considerations
 

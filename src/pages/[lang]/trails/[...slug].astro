@@ -23,9 +23,18 @@ const { lang, slug } = Astro.params;
 const page = Astro.props;
 const { Content } = await render(page);
 const formattedDate = page.data.date.toLocaleString(lang);
+
+// SEO metadata
+const pageTitle = `${page.data.title} - Stage ${page.data.number} | Via dei Sette Santi`;
+const pageDescription = page.data.description || `${page.data.distance} - ${page.data.duration} - Difficulty: ${page.data.difficulty}`;
 ---
 
-<BaseLayout>
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage={page.data.image}
+  ogType="article"
+>
   <article class="container-custom max-w-[900px] mx-auto py-8 px-4">
     <header class="mb-8">
       <div class="flex items-center gap-4 mb-4">

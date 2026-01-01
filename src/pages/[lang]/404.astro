@@ -1,0 +1,164 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/Base.astro";
+import { languages, defaultLang } from "../../i18n/languages";
+import { useTranslations } from "../../i18n/utils";
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as keyof typeof languages);
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title={`404 - ${t("notFound.title")} | Via dei Sette Santi`}
+  description={t("notFound.description")}
+  noindex={true}
+>
+  <section class="section">
+    <div class="container-custom">
+      <div class="not-found-container">
+        <div class="not-found-content">
+          <!-- 404 Icon -->
+          <div class="not-found-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="120"
+              height="120"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+
+          <!-- 404 Number -->
+          <h1 class="not-found-number">404</h1>
+
+          <!-- Title -->
+          <h2 class="not-found-title">{t("notFound.title")}</h2>
+
+          <!-- Description -->
+          <p class="not-found-description">
+            {t("notFound.description")}
+          </p>
+
+          <!-- Back to Home Button -->
+          <a
+            href={getRelativeLocaleUrl(lang ?? defaultLang, "")}
+            class="not-found-button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            {t("notFound.backHome")}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+  }
+
+  .not-found-content {
+    max-width: 600px;
+    padding: var(--spacing-8);
+  }
+
+  .not-found-icon {
+    color: var(--color-primary-600);
+    margin-bottom: var(--spacing-6);
+    display: flex;
+    justify-content: center;
+  }
+
+  .not-found-number {
+    font-size: 6rem;
+    font-weight: 800;
+    color: var(--color-primary-600);
+    line-height: 1;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .not-found-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .not-found-description {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-8);
+    line-height: 1.6;
+  }
+
+  .not-found-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-6);
+    background-color: var(--color-primary-600);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: var(--transition-base);
+  }
+
+  .not-found-button:hover {
+    background-color: var(--color-primary-700);
+    transform: translateY(-2px);
+  }
+
+  .not-found-button:focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .not-found-number {
+      font-size: 4rem;
+    }
+
+    .not-found-title {
+      font-size: 1.5rem;
+    }
+
+    .not-found-description {
+      font-size: 1rem;
+    }
+  }
+</style>

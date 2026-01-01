@@ -22,9 +22,17 @@ export async function getStaticPaths() {
 const { lang, slug } = Astro.params;
 const page = Astro.props;
 const { Content } = await render(page);
+
+// SEO metadata
+const pageTitle = `${page.data.name} - ${page.data.church} | Via dei Sette Santi`;
+const pageDescription = `${page.data.name} at ${page.data.church}, ${page.data.location}. ${page.data.feastDay ? `Feast Day: ${page.data.feastDay}` : ''}`;
 ---
 
-<BaseLayout>
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  ogType="article"
+>
   <article class="container-custom max-w-[800px] mx-auto py-8 px-4">
     <header class="mb-8">
       <h1 class="text-4xl mb-2">{page.data.name}</h1>
