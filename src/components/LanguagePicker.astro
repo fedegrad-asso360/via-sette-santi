@@ -82,7 +82,8 @@ const resourceRoute = getResourceRoute(Astro.url.pathname || "");
 <style>
   .language-picker {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
   }
 
   .language-button {
@@ -135,8 +136,10 @@ const resourceRoute = getResourceRoute(Astro.url.pathname || "");
   .language-menu {
     position: absolute;
     top: calc(100% + 0.5rem);
-    right: 0;
-    min-width: 11rem;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: max(11rem, 100%);
+    width: max-content;
     background-color: var(--color-surface);
     border: 2px solid var(--color-border);
     border-radius: var(--radius-lg);
