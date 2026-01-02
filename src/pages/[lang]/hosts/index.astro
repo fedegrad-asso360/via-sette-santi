@@ -38,7 +38,7 @@ const sortedHosts = allHosts.sort((a, b) => {
       </div>
 
       <!-- Hosts Grid -->
-      <div class="grid-auto-fit" style="--grid-min-width: 350px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {sortedHosts.map((host) => {
           const slug = host.id.split('/').slice(1).join('/').replace('.md', '');
           const hostUrl = getRelativeLocaleUrl(lang, `hosts/${slug}`);
