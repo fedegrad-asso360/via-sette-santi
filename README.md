@@ -29,10 +29,17 @@ The Via dei Sette Santi is a 5-day circular trekking route that connects 7 churc
 ├── public/
 │   ├── favicon.svg
 │   └── images/
-│       ├── logo.svg
-│       ├── hero-1.jpg, hero-2.jpg, hero-3.jpg
-│       ├── trails/        # Trail images
-│       └── saints/        # Saint images
+│       ├── logo.svg       # 150x150px SVG logo
+│       ├── hero-1.jpg     # 1920x800px hero carousel (500KB max)
+│       ├── hero-2.jpg     # 1920x800px hero carousel (500KB max)
+│       ├── hero-3.jpg     # 1920x800px hero carousel (500KB max)
+│       ├── trails/        # Trail images (800x600px, 200KB max each)
+│       │   ├── trail-1.jpg to trail-5.jpg
+│       │   └── gallery/   # Gallery images (1200x800px, 300KB max)
+│       ├── saints/        # Saint/church images (600x800px, 200KB max)
+│       │   └── saint-*.jpg (7 images)
+│       └── hosts/         # Accommodation images (1200x800px, 300KB max)
+│           └── *.jpg (2+ images)
 ├── src/
 │   ├── components/
 │   │   ├── HeroCarousel.astro
@@ -146,6 +153,81 @@ date: 2025-12-28
 
 Markdown content goes here...
 ```
+
+## 🖼️ Image Management
+
+> **📘 Complete Documentation**:  
+> - [IMAGES_TECHNICAL_GUIDE.md](IMAGES_TECHNICAL_GUIDE.md) - Technical architecture and decisions
+> - [PLACEHOLDER_IMAGES.md](PLACEHOLDER_IMAGES.md) - Placeholder image guide
+> - [manage-images.ps1](manage-images.ps1) - Image verification script
+
+### Image Organization
+
+Images are stored in `public/images/` following Astro's conventions for static assets:
+
+**Why `public/` instead of `src/assets/`?**
+- Images are referenced dynamically from markdown frontmatter
+- Content Collections use string paths, not import statements
+- Direct URL control for SEO and social sharing
+- Works seamlessly with `BASE_URL` for deployment flexibility
+
+### Image Specifications
+
+| Category | Location | Dimensions | Format | Max Size | Usage |
+|----------|----------|------------|--------|----------|-------|
+| **Hero Carousel** | `public/images/hero-*.jpg` | 1920×800px | JPG | 500KB | Homepage hero section |
+| **Trail Cards/Heroes** | `public/images/trails/trail-*.jpg` | 800×600px | JPG | 200KB | Trail cards & detail hero |
+| **Saint Cards/Heroes** | `public/images/saints/saint-*.jpg` | 600×800px | JPG | 200KB | Saint cards & detail hero |
+| **Host Cards/Heroes** | `public/images/hosts/*.jpg` | 1200×800px | JPG | 300KB | Accommodation cards & hero |
+| **Trail Gallery** | `public/images/trails/gallery/*.jpg` | 1200×800px | JPG | 300KB | Trail detail galleries |
+| **Logo** | `public/images/logo.svg` | 150×150px | SVG | - | Site header/footer |
+
+### Image Optimization Guidelines
+
+1. **Compression**: Use 80-85% quality for JPG images
+2. **Format**: Progressive JPG for better perceived loading
+3. **Color Space**: sRGB for web compatibility
+4. **Metadata**: Remove EXIF data to reduce file size
+5. **Alt Text**: Always provide descriptive alt text for accessibility
+6. **Loading**: Use `loading="lazy"` for below-the-fold images
+7. **Dimensions**: Always specify width/height to prevent layout shift
+
+### Tools for Optimization
+
+- **[TinyPNG](https://tinypng.com)** - Smart lossy compression
+- **[Squoosh](https://squoosh.app)** - Advanced compression control
+- **[ImageOptim](https://imageoptim.com)** - Mac batch processing
+- **Script**: Use `manage-images.ps1` to verify all images
+
+### Image References in Code
+
+Images are referenced using `${import.meta.env.BASE_URL}` for deployment flexibility:
+
+```astro
+<img 
+  src={`${import.meta.env.BASE_URL}images/trails/${image}`}
+  alt={title}
+  width={800}
+  height={600}
+  loading="lazy"
+  decoding="async"
+/>
+```
+
+**Note**: Do NOT use static imports like `import image from './image.jpg'` for content-driven images. The current approach with `public/` ensures:
+- Content Collections can reference images via strings in frontmatter
+- Images work with any `BASE_URL` configuration
+- No build-time processing = faster builds
+- Predictable URLs for SEO and social sharing
+
+### Future Enhancements
+
+For even better performance, consider:
+- Converting to WebP/AVIF with JPG fallback
+- Implementing responsive `srcset` attributes
+- Using Astro's `<Image>` component for imported images (static, non-content images)
+- Progressive loading for gallery images
+- CDN integration for global distribution
 
 ## 🎨 Design System
 

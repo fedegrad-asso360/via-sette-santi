@@ -28,6 +28,66 @@ This is a website for "la Via dei Sette Santi" (Path of the Seven Saints), a spi
 ### Routing
 - To reference public images use `${import.meta.env.BASE_URL}images/***.jpg` so it works with base URL after deploy
 
+### Image Management Strategy
+
+**Location**: All images are in `public/images/` (not `src/assets/`)
+
+**Why `public/` for this project:**
+1. **Dynamic References**: Content Collections reference images via string paths in markdown frontmatter
+2. **Flexible Deployment**: Works with any `BASE_URL` configuration
+3. **Direct Control**: No build-time image processing, predictable URLs
+4. **SEO/OG Tags**: Direct paths for social media meta tags
+
+**Image Directory Structure:**
+```
+public/images/
+├── logo.svg                    # 150x150px - Site logo
+├── hero-1.jpg                  # 1920x800px, <500KB - Homepage carousel
+├── hero-2.jpg                  # 1920x800px, <500KB
+├── hero-3.jpg                  # 1920x800px, <500KB
+├── trails/
+│   ├── trail-1.jpg            # 800x600px, <200KB - Trail cards & heroes
+│   ├── trail-2.jpg            # ... (5 total)
+│   └── gallery/
+│       └── trail-{N}-{M}.jpg  # 1200x800px, <300KB - Detail galleries
+├── saints/
+│   ├── saint-leonardo.jpg     # 600x800px, <200KB - Saint cards & heroes
+│   └── ...                    # (7 total)
+└── hosts/
+    ├── locanda-del-monte.jpg  # 1200x800px, <300KB - Accommodation
+    └── ...                    # (2+ total)
+```
+
+**Image Specifications by Category:**
+
+| Category | Dimensions | Format | Max Size | Compression | Usage |
+|----------|-----------|--------|----------|-------------|-------|
+| Hero Carousel | 1920×800px | JPG | 500KB | 80-85% | Homepage hero background |
+| Trail Cards | 800×600px | JPG | 200KB | 80-85% | Trail grid cards |
+| Trail Heroes | 800×600px | JPG | 200KB | 80-85% | Trail detail page hero |
+| Saint Cards | 600×800px | JPG | 200KB | 80-85% | Saint grid cards |
+| Saint Heroes | 600×800px | JPG | 200KB | 80-85% | Saint detail page hero |
+| Host Cards | 1200×800px | JPG | 300KB | 80-85% | Accommodation cards |
+| Host Heroes | 1200×800px | JPG | 300KB | 80-85% | Accommodation detail hero |
+| Trail Gallery | 1200×800px | JPG | 300KB | 80-85% | Trail photo galleries |
+| Logo | 150×150px | SVG | - | - | Site header/footer |
+
+**Image Optimization Best Practices:**
+- **Progressive JPG**: Enable for better perceived loading
+- **Color Space**: Always sRGB for web
+- **Metadata**: Strip EXIF/GPS data
+- **Alt Text**: Required for all images (accessibility)
+- **Loading Attribute**: Use `loading="lazy"` for below-fold images
+- **Dimensions**: Always specify width/height to prevent CLS (Cumulative Layout Shift)
+- **Preload**: Use `preloadImage` prop in BaseLayout for critical hero images
+
+**Tools for Optimization:**
+- [TinyPNG](https://tinypng.com) - Smart lossy compression
+- [Squoosh](https://squoosh.app) - Advanced control
+- `manage-images.ps1` - Project script to verify all images
+
+**Future Enhancement**: Consider Astro's `<Image>` component from `astro:assets` for imported images with automatic optimization, but current setup prioritizes flexibility for Content Collections.
+
 ## Astro Architecture
 - Project infrastructure reflects standard Astro best practices and documentation
 - The helper `getResourceRoute` in `src/utils/path.ts` are used to split the current URL and getting the specific resource pathname without base URL and language codes
@@ -208,15 +268,60 @@ Example for trail pages:
 
 ## Performance
 
-### Image Optimization
-**CURRENT**: Using plain `<img>` tags
-**TODO**: Migrate to Astro's `Image` component for:
-- Automatic WebP/AVIF conversion
-- Responsive `srcset` generation
-- Lazy loading with native browser support
-- Proper width/height to prevent layout shift
+### Image Strategy - CURRENT IMPLEMENTATION ✅
+
+**Architecture**: Images stored in `public/images/` with optimized plain `<img>` tags
+
+**Rationale for `public/` over `src/assets/`:**
+1. **Content Collections Compatibility**: Markdown frontmatter references images as strings, not imports
+2. **Dynamic Paths**: `${import.meta.env.BASE_URL}images/...` works for any deployment configuration
+3. **Build Simplicity**: No asset processing during build = faster builds
+4. **Predictable URLs**: Direct control over URLs for SEO, social sharing, and caching
+5. **Flexibility**: Easy to update images without rebuilding when using CMS
+
+**Performance Optimizations Applied:**
+- ✅ Progressive JPG encoding for better perceived loading
+- ✅ Optimized file sizes (hero <500KB, cards <200KB, gallery <300KB)
+- ✅ `loading="lazy"` on all below-the-fold images
+- ✅ `decoding="async"` for non-blocking image decode
+- ✅ Explicit width/height to prevent CLS (Cumulative Layout Shift)
+- ✅ Preload critical hero images via BaseLayout prop
+
+### SEO Optimizations for Images
+- ✅ Descriptive filenames: `trail-1.jpg`, `saint-leonardo.jpg`
+- ✅ Required alt text for all images (accessibility + SEO)
+- ✅ Appropriate dimensions for Open Graph tags
+- ✅ Images under 300KB for fast social sharing previews
+- ✅ sRGB color space for cross-platform consistency
+
+### Critical Assets Preloading - IMPLEMENTED ✅
+```astro
+<BaseLayout
+  preloadImage="images/hero-trail-1.jpg"
+  title="Trail Stage 1"
+  description="..."
+>
+```
+- Hero images can be preloaded via Base layout's `preloadImage` prop
+- Reduces Largest Contentful Paint (LCP)
+- Use for above-the-fold critical images only
+
+### Future Image Optimization Considerations
+
+**When to migrate to Astro's `<Image>` component:**
+- If switching to static imports instead of Content Collections
+- When needing automatic WebP/AVIF conversion with fallbacks
+- For automatic responsive `srcset` generation
+- When implementing art direction with `<picture>` element
+
+**Current setup is optimal for:**
+- Dynamic content-driven images
+- Flexible deployment scenarios
+- Fast build times
+- Simple image management workflow
 
 ```astro
+// Future enhancement example (not currently used):
 ---
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/hero-1.jpg';
@@ -230,16 +335,12 @@ import heroImage from '../assets/images/hero-1.jpg';
 />
 ```
 
-### Critical Assets Preloading - IMPLEMENTED ✅
-- Hero images can be preloaded via Base layout's `preloadImage` prop
-- Reduces Largest Contentful Paint (LCP)
-- Use for above-the-fold critical images only
-
 ### Build Optimization
 - Astro automatically optimizes CSS/JS bundles
 - Use `client:load` sparingly (prefer `client:idle` or `client:visible`)
 - Static generation (SSG) for all routes
 - No hydration needed for content pages
+- Fast builds due to static image strategy
 
 ## Design System & Styling
 
@@ -621,6 +722,43 @@ Before deploying to production:
 9. **Is the TypeScript typing complete and accurate?**
 10. **Does this maintain consistency with the design system?**
 
+## Quick Reference: Images
+
+### Where to Store Images
+- **Location**: `public/images/` (NOT `src/assets/`)
+- **Access**: Use `${import.meta.env.BASE_URL}images/path/to/image.jpg`
+- **Why**: Dynamic references from markdown frontmatter
+
+### Image Specifications Quick Table
+
+| Type | Path | Size | Max Weight |
+|------|------|------|-----------|
+| Hero Carousel | `public/images/hero-*.jpg` | 1920×800 | 500KB |
+| Trail Card | `public/images/trails/trail-*.jpg` | 800×600 | 200KB |
+| Saint Card | `public/images/saints/saint-*.jpg` | 600×800 | 200KB |
+| Host Card | `public/images/hosts/*.jpg` | 1200×800 | 300KB |
+| Gallery | `public/images/trails/gallery/*.jpg` | 1200×800 | 300KB |
+
+### Must-Have Attributes
+```astro
+<img 
+  src={imagePath}
+  alt="Descriptive text"
+  width={800}
+  height={600}
+  loading="lazy"
+  decoding="async"
+/>
+```
+
+### Optimization Checklist
+- [ ] JPG quality 80-85%
+- [ ] Progressive encoding enabled
+- [ ] EXIF metadata removed
+- [ ] Descriptive alt text added
+- [ ] Width/height specified
+- [ ] Under target file size
+
 ## Getting Help
 
 - Check Astro documentation: https://docs.astro.build
@@ -629,6 +767,7 @@ Before deploying to production:
 - Review `src/styles/global.css` for available utilities and CSS variables
 - Refer to existing components and pages in `src/components/` and `src/pages/` for patterns
 - Homepage (`src/pages/[lang]/index.astro`) demonstrates best practices for using utility classes
+- **Image management**: `manage-images.ps1` and `PLACEHOLDER_IMAGES.md`
 
 ---
 
