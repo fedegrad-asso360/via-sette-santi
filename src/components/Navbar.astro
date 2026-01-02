@@ -2,8 +2,10 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ThemeToggle from "./ThemeToggle.astro";
 import { defaultLang } from "../i18n/languages";
+import { useTranslations } from "../i18n/utils";
 
 const { lang: currentLang } = Astro.params; // current selected language in the URL
+const t = useTranslations(currentLang ?? defaultLang);
 ---
 
 <header class="navbar">
@@ -30,21 +32,21 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
         <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
           <a
             href={getRelativeLocaleUrl(currentLang ?? defaultLang, "")}
-            class="nav-link">Home</a
+            class="nav-link">{t('nav.home')}</a
           >
           <a
             href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/trails")}
-            class="nav-link">Trails</a
+            class="nav-link">{t('nav.trails')}</a
           >
           <a
             href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/saints")}
-            class="nav-link">Saints</a
+            class="nav-link">{t('nav.saints')}</a
           >
           <a
             href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/hosts")}
-            class="nav-link">Hosts</a
+            class="nav-link">{t('nav.hosts')}</a
           >
-          <a href="#" class="nav-link">Contact</a>
+          <a href="#" class="nav-link">{t('nav.contact')}</a>
         </div>
 
         <!-- Actions -->
@@ -87,21 +89,21 @@ const { lang: currentLang } = Astro.params; // current selected language in the 
       <div class="flex flex-col space-y-2 pt-3">
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "")}
-          class="mobile-nav-link">Home</a
+          class="mobile-nav-link">{t('nav.home')}</a
         >
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/trails")}
-          class="mobile-nav-link">Trails</a
+          class="mobile-nav-link">{t('nav.trails')}</a
         >
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/saints")}
-          class="mobile-nav-link">Saints</a
+          class="mobile-nav-link">{t('nav.saints')}</a
         >
         <a
           href={getRelativeLocaleUrl(currentLang ?? defaultLang, "/hosts")}
-          class="mobile-nav-link">Hosts</a
+          class="mobile-nav-link">{t('nav.hosts')}</a
         >
-        <a href="#" class="mobile-nav-link">Contact</a>
+        <a href="#" class="mobile-nav-link">{t('nav.contact')}</a>
         
         <!-- Theme Toggle in mobile menu -->
         <div class="pt-2 border-t border-white/10">
