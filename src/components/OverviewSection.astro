@@ -45,7 +45,7 @@ const { title, subtitle, description, mapTitle, getDirectionsText, getDirections
 				<h3 class="text-2xl font-serif font-bold text-[var(--color-text)] mb-6">{mapTitle}</h3>
 				
 				<!-- OpenStreetMap with Leaflet -->
-				<div id="overview-map" class="relative w-full h-[400px] rounded-xl overflow-hidden shadow-lg mb-4"></div>
+				<div id="overview-map" class="w-full h-[400px] rounded-xl shadow-lg mb-4"></div>
 
 				<!-- Get Directions Link -->
 				<a 
@@ -76,61 +76,31 @@ const { title, subtitle, description, mapTitle, getDirectionsText, getDirections
      crossorigin=""></script>
 
 <script>
-	// Initialize map when DOM is ready
 	document.addEventListener('DOMContentLoaded', function() {
-		// Saint Ruffino coordinates (Amandola, Marche)
 		const saintRuffinoCoords = [42.965, 13.357];
-		
-		// Initialize map centered on Italy with zoom showing entire country
 		const map = L.map('overview-map').setView([42.5, 12.5], 6);
 		
-		// Add OpenStreetMap tiles (free, no limits)
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			maxZoom: 19
 		}).addTo(map);
 		
-		// Create custom icon for the pin
-		const customIcon = L.icon({
-			iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
-					<path fill="#8B4513" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-					<circle cx="12" cy="9" r="2.5" fill="white"/>
-				</svg>
-			`),
-			iconSize: [40, 40],
-			iconAnchor: [20, 40],
-			popupAnchor: [0, -40]
+		const markerIcon = L.divIcon({
+			className: '',
+			html: '<div class="w-10 h-10 -mt-10 -ml-5"><svg viewBox="0 0 24 24" fill="#8B4513" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white"/></svg></div>',
+			iconSize: [40, 40]
 		});
 		
-		// Add marker for Saint Ruffino with popup
-		const marker = L.marker(saintRuffinoCoords, { icon: customIcon }).addTo(map);
-		marker.bindPopup('<b>San Ruffino</b><br>Amandola, Marche, Italy').openPopup();
+		L.marker(saintRuffinoCoords, { icon: markerIcon })
+			.addTo(map)
+			.bindPopup('<div class="font-sans"><strong>San Ruffino</strong><br>Amandola, Marche, Italy</div>')
+			.openPopup();
 		
-		// Add pulsing circle overlay around the pin
-		const circle = L.circle(saintRuffinoCoords, {
+		L.circle(saintRuffinoCoords, {
 			color: '#8B4513',
 			fillColor: '#8B4513',
 			fillOpacity: 0.2,
-			radius: 5000 // 5km radius
+			radius: 5000
 		}).addTo(map);
 	});
 </script>
-
-<style>
-	/* Ensure map renders properly */
-	#overview-map {
-		z-index: 0;
-	}
-	
-	/* Style the popup */
-	:global(.leaflet-popup-content-wrapper) {
-		border-radius: 8px;
-		font-family: var(--font-sans);
-	}
-	
-	:global(.leaflet-popup-content) {
-		margin: 10px 15px;
-		font-size: 14px;
-	}
-</style>
