@@ -75,10 +75,23 @@ const { title, subtitle, description, mapTitle, getDirectionsText, getDirections
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 
-<script>
+<script is:inline>
 	document.addEventListener('DOMContentLoaded', function() {
 		const saintRuffinoCoords = [42.965, 13.357];
-		const map = L.map('overview-map').setView([42.5, 12.5], 6);
+		const map = L.map('overview-map', {
+			scrollWheelZoom: false, // Disable scroll wheel zoom by default
+			touchZoom: true, // Keep pinch zoom enabled (2 fingers on mobile)
+		}).setView([42.5, 12.5], 6);
+		
+		// Enable scroll zoom only with CTRL key
+		map.on('wheel', function(e) {
+			if (e.originalEvent.ctrlKey) {
+				e.originalEvent.preventDefault();
+				map.scrollWheelZoom.enable();
+			} else {
+				map.scrollWheelZoom.disable();
+			}
+		});
 		
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
