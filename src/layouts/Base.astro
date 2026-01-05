@@ -32,10 +32,12 @@ const siteUrl = import.meta.env.SITE; // domain of the site
 /* current resource user is navigating to */
 const resourceRoute = getResourceRoute(Astro.url.pathname || "");
 
-// OG image: use logo as default, build full URL
-const ogImageUrl = (ogImage || "images/logo.svg").startsWith("http") 
-  ? ogImage || "images/logo.svg"
-  : `${siteUrl}${baseUrl}${ogImage || "images/logo.svg"}`;
+// Build full URL for OG image if provided
+const ogImageUrl = ogImage
+  ? ogImage.startsWith("http")
+    ? ogImage
+    : `${siteUrl}${baseUrl}${ogImage}`
+  : undefined;
 
 //#region SEO i18n link tags
 
@@ -86,7 +88,7 @@ if (resourceRoute === "/")
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalLink} />
-    <meta property="og:image" content={ogImageUrl} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta property="og:site_name" content="Via dei Sette Santi" />
     <meta property="og:locale" content={Astro.currentLocale} />
 
@@ -94,7 +96,7 @@ if (resourceRoute === "/")
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
-    <meta name="twitter:image" content={ogImageUrl} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <!-- Preload Critical Assets -->
     {
