@@ -1,11 +1,11 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ThemeToggle from "./ThemeToggle.astro";
-import { defaultLang } from "../i18n/languages";
+import { defaultLang, languages } from "../i18n/languages";
 import { useTranslations } from "../i18n/utils";
 
 const { lang: currentLang } = Astro.params; // current selected language in the URL
-const t = useTranslations(currentLang ?? defaultLang);
+const t = useTranslations( (currentLang  ?? defaultLang) as keyof typeof languages );
 ---
 
 <header class="navbar">
