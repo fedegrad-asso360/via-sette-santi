@@ -7,7 +7,18 @@ set -e
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
+
+# Check dependencies
+if ! command -v convert &> /dev/null; then
+    echo -e "${RED}Error: ImageMagick is not installed.${NC}"
+    echo "Please install ImageMagick:"
+    echo "  Ubuntu/Debian: sudo apt-get install imagemagick"
+    echo "  macOS: brew install imagemagick"
+    echo "  Windows: Download from https://imagemagick.org/script/download.php"
+    exit 1
+fi
 
 IMAGES_DIR="public/images"
 
@@ -23,6 +34,7 @@ optimize_image() {
     local filename=$(basename "$src")
     local dir=$(dirname "$src")
     local name="${filename%.*}"
+    local ext="${filename##*.}"
     local webp_out="$dir/${name}.webp"
     
     echo -e "${YELLOW}Processing: $filename${NC}"

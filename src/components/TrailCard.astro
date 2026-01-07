@@ -4,6 +4,8 @@
  * Displays a trail with its basic information
  */
 
+import { toWebP } from '../utils/image';
+
 interface Props {
   number: number;
   title: string;
@@ -31,7 +33,7 @@ const { number, title, description, distance, duration, difficulty, image, link,
     <div class="card-image">
       <picture>
         <source 
-          srcset={`${import.meta.env.BASE_URL}images/trails/${image.replace('.jpg', '.webp')}`} 
+          srcset={`${import.meta.env.BASE_URL}images/trails/${toWebP(image)}`} 
           type="image/webp" 
         />
         <img 

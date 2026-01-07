@@ -4,6 +4,8 @@
  * Displays a saint with their basic information
  */
 
+import { toWebP } from '../utils/image';
+
 interface Props {
   name: string;
   church: string;
@@ -24,7 +26,7 @@ const { name, church, location, description, image, link, translations } = Astro
     <div class="card-image">
       <picture>
         <source 
-          srcset={`${import.meta.env.BASE_URL}images/saints/${image.replace('.jpg', '.webp')}`} 
+          srcset={`${import.meta.env.BASE_URL}images/saints/${toWebP(image)}`} 
           type="image/webp" 
         />
         <img 

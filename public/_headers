@@ -1,5 +1,9 @@
 # Cache control headers for static assets
-# Note: GitHub Pages may not respect these headers, but they're here for best practices
+# Note: GitHub Pages may not respect these headers, but they're included for best practices.
+# For full cache control support, consider deploying to:
+# - Netlify (supports _headers file)
+# - Vercel (supports vercel.json config)
+# - Cloudflare Pages (supports _headers file)
 
 # Images - cache for 1 year (immutable content)
 /images/*
